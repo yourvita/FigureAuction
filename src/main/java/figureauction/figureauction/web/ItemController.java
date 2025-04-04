@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ItemController {
     private final ItemRepository itemRepository;
 
-    @PostConstruct
-    public void init() {
-        itemRepository.save(new Item("jinseo", "itemA", 10000, 1, "잘 관리되었습니다", "/images/jinseo.png"));
-        itemRepository.save(new Item("seojin", "itemB", 20000, 2, "A급 입니다", "/images/seojin.png"));
-    }
+//    @PostConstruct
+//    public void init() {
+//        itemRepository.save(new Item("jinseo", "itemA", 10000, 1, "잘 관리되었습니다", "/images/jinseo.png"));
+//        itemRepository.save(new Item("seojin", "itemB", 20000, 2, "A급 입니다", "/images/seojin.png"));
+//    }
 
     @GetMapping
     public String items(Model model) {

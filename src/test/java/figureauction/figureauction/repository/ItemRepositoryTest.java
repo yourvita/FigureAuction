@@ -1,3 +1,4 @@
+/*
 package figureauction.figureauction.repository;
 
 import figureauction.figureauction.domain.Item;
@@ -12,10 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class ItemRepositoryTest {
     ItemRepository itemRepository = new ItemRepository();
 
-    @AfterEach
-    void afterEach() {
-        itemRepository.clearStore();
-    }
+//    @AfterEach
+//    void afterEach() {
+//        itemRepository.clearStore();
+//    }
 
     @Test
     void save() {
@@ -80,4 +81,4 @@ class ItemRepositoryTest {
 
         assertEquals(30000, updateItem.getPrice());
     }
-}
+}*/

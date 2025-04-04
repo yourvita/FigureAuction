@@ -13,15 +13,15 @@ public class Item {
     private String itemName; // 판매아이템이름
     private int price; // 가격
     private int quantity; // 수량
-    private String description; // 설명
-    private String image; // 이미지
+    private String descriptionDetail; // 설명
+    private String imageDetail; // 이미지
 
-    public Item(String sellerId, String itemName, int price, int quantity, String description, String image) {
+    public Item(String sellerId, String itemName, int price, int quantity, String descriptionDetail, String imageDetail) {
         this.sellerId = sellerId;
         this.itemName = itemName;
         this.price = price;
         this.quantity = quantity;
-        this.description = description;
-        this.image = image;
+        this.descriptionDetail = descriptionDetail;
+        this.imageDetail = imageDetail;
     }
 }
