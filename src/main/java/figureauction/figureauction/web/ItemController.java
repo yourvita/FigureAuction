@@ -1,8 +1,6 @@
 package figureauction.figureauction.web;
 
-import figureauction.figureauction.domain.Item;
-import figureauction.figureauction.repository.ItemRepository;
-import jakarta.annotation.PostConstruct;
+import figureauction.figureauction.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +28,7 @@ public class ItemController {
 
     @GetMapping("/{itemId}")
     public String itemDetail(@PathVariable("itemId") long itemId, Model model) {
-        model.addAttribute("item", itemRepository.findById(itemId));
+        model.addAttribute("item", itemRepository.findAll());
         return "item/item";
     }
 }

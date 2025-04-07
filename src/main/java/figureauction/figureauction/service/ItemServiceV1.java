@@ -1,0 +1,26 @@
+package figureauction.figureauction.service;
+
+import figureauction.figureauction.ItemRepository;
+import figureauction.figureauction.domain.Item;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ItemServiceV1 implements ItemService {
+
+    private final ItemRepository itemRepository;
+
+    @Override
+    public Item saveItem(Item item) {
+        return itemRepository.saveItem(item);
+    }
+
+    @Override
+    public List<Item> findAll() {
+        return itemRepository.findAll();
+    }
+}
