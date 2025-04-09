@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Data
 @Getter @Setter
 public class Item {
 
@@ -15,6 +14,16 @@ public class Item {
     private int quantity; // 수량
     private String descriptionDetail; // 설명
     private String imageDetail; // 이미지
+
+    public Item(Long itemId, String sellerId, String itemName, int price, int quantity, String descriptionDetail, String imageDetail) {
+        this.itemId = itemId;
+        this.sellerId = sellerId;
+        this.itemName = itemName;
+        this.price = price;
+        this.quantity = quantity;
+        this.descriptionDetail = descriptionDetail;
+        this.imageDetail = imageDetail;
+    }
 
     public Item(String sellerId, String itemName, int price, int quantity, String descriptionDetail, String imageDetail) {
         this.sellerId = sellerId;

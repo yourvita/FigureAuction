@@ -3,7 +3,6 @@ package figureauction.figureauction.service;
 import figureauction.figureauction.ItemRepository;
 import figureauction.figureauction.domain.Item;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

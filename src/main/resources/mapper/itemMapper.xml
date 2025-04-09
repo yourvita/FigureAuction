@@ -3,12 +3,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="figureauction.figureauction.mapper.ItemMapper">
     <insert id="saveItem" useGeneratedKeys="true" keyProperty="itemId">
-        insert into item (item_id, seller_Id, item_Name, price, quantity, description_detail, image_detail)
+        insert into item (item_id, seller_id, item_name, price, quantity, description_detail, image_detail)
         values (null, #{sellerId}, #{itemName}, #{price}, #{quantity},
         #{descriptionDetail},#{imageDetail})
     </insert>
 
-    <select id="findAll" resultType="item">
+    <select id="findAll" resultType="Item">
         select * from item
     </select>
+
 </mapper>

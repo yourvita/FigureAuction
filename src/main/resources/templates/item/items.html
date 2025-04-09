@@ -39,8 +39,8 @@
                 <td><a href="item.html" th:href="@{/item/{itemId}(itemId=${item.itemId})}" th:text="${item.itemName}">상품명</a></td>
                 <td th:text="${item.price}">10000</td>
                 <td th:text="${item.quantity}">10</td>
-                <td th:text="${item.description}">잘 관리되었습니다.</td>
-                <td th:text="${item.image}">이미지</td>
+                <td th:text="${item.descriptionDetail}">잘 관리되었습니다.</td>
+                <td th:text="${item.imageDetail}">이미지</td>
             </tr>
             </tbody>
         </table>
