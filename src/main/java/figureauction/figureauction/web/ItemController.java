@@ -20,21 +20,6 @@ public class ItemController {
     private final ItemRepositoryV1 itemRepository;
     private final ItemService itemService;
 
-//    @PostConstruct
-//    public void init() {
-//        itemRepository.save(new Item("jinseo", "itemA", 10000, 1, "잘 관리되었습니다", "/images/jinseo.png"));
-//        itemRepository.save(new Item("seojin", "itemB", 20000, 2, "A급 입니다", "/images/seojin.png"));
-//    }
-
-/*    @GetMapping
-    public String items(Model model) {
-        System.out.println("www");
-        List<Item> itemList = itemRepository.findAll();
-        System.out.println(itemList.getFirst());
-        model.addAttribute("items", itemList);
-        return "item/items";
-    }*/
-
     @GetMapping
     public String item(Model model) {
         List<Item> items = itemService.findAll();
@@ -42,6 +27,7 @@ public class ItemController {
         return "item/items";
     }
 
+    // TODO 상품별 상세페이지 작성해야함 (04/09 13:07)
     @GetMapping("/{itemId}")
     public String itemDetail(@PathVariable("itemId") long itemId, Model model) {
         model.addAttribute("item", itemRepository.findAll());
