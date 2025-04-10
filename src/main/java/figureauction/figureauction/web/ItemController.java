@@ -7,9 +7,7 @@ import figureauction.figureauction.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,10 +25,21 @@ public class ItemController {
         return "item/items";
     }
 
-    // TODO 상품별 상세페이지 작성해야함 (04/09 13:07)
     @GetMapping("/{itemId}")
     public String itemDetail(@PathVariable("itemId") long itemId, Model model) {
-        model.addAttribute("item", itemRepository.findAll());
+        model.addAttribute("item", itemService.findOne(itemId));
         return "item/item";
+    }
+
+    @GetMapping("/{itemId}/edit")
+    public String editForm(@PathVariable long itemId, Model model) {
+        model.addAttribute("item", itemService.findOne(itemId));
+        return "item/editForm";
+    }
+
+    @PostMapping("/{itemId}/edit")
+    public String edit(@PathVariable long itemId, @ModelAttribute Item item) {
+        itemService.update(itemId, item);
+        return "redirect:/item/" + itemId;
     }
 }

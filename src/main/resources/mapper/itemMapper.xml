@@ -12,4 +12,12 @@
         select * from item
     </select>
 
+    <select id="findOne" resultType="Item" parameterType="long">
+        select * from item where item_id = #{itemId}
+    </select>
+
+    <update id="update">
+        update item set item_name=#{item.itemName}, price=#{item.price}, quantity=#{item.quantity}, description_detail=#{item.descriptionDetail}, image_detail=#{item.imageDetail}
+        where item_id = #{id}
+    </update>
 </mapper>

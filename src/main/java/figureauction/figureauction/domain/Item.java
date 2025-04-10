@@ -2,8 +2,10 @@ package figureauction.figureauction.domain;
 
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 @Getter @Setter
 public class Item {
 
@@ -27,6 +29,14 @@ public class Item {
 
     public Item(String sellerId, String itemName, int price, int quantity, String descriptionDetail, String imageDetail) {
         this.sellerId = sellerId;
+        this.itemName = itemName;
+        this.price = price;
+        this.quantity = quantity;
+        this.descriptionDetail = descriptionDetail;
+        this.imageDetail = imageDetail;
+    }
+
+    public Item(String itemName, int price, int quantity, String descriptionDetail, String imageDetail) {
         this.itemName = itemName;
         this.price = price;
         this.quantity = quantity;

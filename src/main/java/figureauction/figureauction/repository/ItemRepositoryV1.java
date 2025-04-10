@@ -27,4 +27,14 @@ public class ItemRepositoryV1 implements ItemRepository {
     public List<Item> findAll() {
         return itemMapper.findAll();
     }
+
+    @Override
+    public Item findOne(long id) {
+        return itemMapper.findOne(id);
+    }
+
+    @Override
+    public void update(long id, Item item) {
+        itemMapper.update(id, item);
+    }
 }

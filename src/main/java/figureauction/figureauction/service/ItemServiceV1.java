@@ -22,4 +22,14 @@ public class ItemServiceV1 implements ItemService {
     public List<Item> findAll() {
         return itemRepository.findAll();
     }
+
+    @Override
+    public Item findOne(long id) {
+        return itemRepository.findOne(id);
+    }
+
+    @Override
+    public void update(long id, Item item) {
+        itemRepository.update(id, item);
+    }
 }
