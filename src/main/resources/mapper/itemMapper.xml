@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="figureauction.figureauction.mapper.ItemMapper">
-    <insert id="saveItem" useGeneratedKeys="true" keyProperty="itemId">
-        insert into item (item_id, seller_id, item_name, price, quantity, description_detail, image_detail)
+    <insert id="saveItem" useGeneratedKeys="true" keyProperty="itemId" parameterType="Item">
+        insert into item (item_id, seller_id, item_name, price, quantity, description_detail, image_Detail)
         values (null, #{sellerId}, #{itemName}, #{price}, #{quantity},
-        #{descriptionDetail},#{imageDetail})
+        #{descriptionDetail}, #{imageDetail})
     </insert>
 
     <select id="findAll" resultType="Item">

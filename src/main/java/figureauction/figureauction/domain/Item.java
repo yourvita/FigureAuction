@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @NoArgsConstructor
 @Getter @Setter
@@ -42,5 +43,12 @@ public class Item {
         this.quantity = quantity;
         this.descriptionDetail = descriptionDetail;
         this.imageDetail = imageDetail;
+    }
+
+    public Item(String itemName, int price, int quantity, String descriptionDetail) {
+        this.itemName = itemName;
+        this.price = price;
+        this.quantity = quantity;
+        this.descriptionDetail = descriptionDetail;
     }
 }

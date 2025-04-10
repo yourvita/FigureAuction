@@ -15,7 +15,7 @@
         <div class="col">
             <button class="btn btn-primary float-end"
                     onclick="location.href='addForm.html'"
-                    th:onclick="|location.href='@{/basic/items/add}'|"
+                    th:onclick="|location.href='@{/item/add}'|"
                     type="button">상품 등록
             </button>
         </div>
@@ -40,7 +40,7 @@
                 <td th:text="${item.price}">10000</td>
                 <td th:text="${item.quantity}">10</td>
                 <td th:text="${item.descriptionDetail}">잘 관리되었습니다.</td>
-                <td th:text="${item.imageDetail}">이미지</td>
+                <td><img th:src="@{/item/itemimage/{filename}(filename=${item.imageDetail != null ? item.imageDetail : 'default.png'})}" alt="상품 이미지"></td>
             </tr>
             </tbody>
         </table>

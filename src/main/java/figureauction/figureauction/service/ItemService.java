@@ -1,7 +1,9 @@
 package figureauction.figureauction.service;
 
 import figureauction.figureauction.domain.Item;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ItemService {

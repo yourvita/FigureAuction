@@ -48,10 +48,7 @@
                th:value="${item.descriptionDetail}" readonly>
     </div>
     <div>
-        <label for="image">수량</label>
-        <input type="text" id="image" name="image" class="form-control"
-               value=""
-               th:value="${item.imageDetail}" readonly>
+        <img th:src="@{/item/itemimage/{filename}(filename=${item.imageDetail != null ? item.imageDetail : 'default.png'})}" alt="상품 이미지">
     </div>
     <hr class="my-4">
     <div class="row">
