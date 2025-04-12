@@ -1,4 +1,4 @@
-package figureauction.figureauction;
+package figureauction.figureauction.repository;
 
 import figureauction.figureauction.domain.Item;
 

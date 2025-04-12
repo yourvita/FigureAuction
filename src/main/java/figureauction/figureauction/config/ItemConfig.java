@@ -2,7 +2,7 @@
 //
 //import com.zaxxer.hikari.HikariDataSource;
 //import figureauction.figureauction.mapper.ItemMapper;
-//import figureauction.figureauction.ItemRepository;
+//import figureauction.figureauction.repository.ItemRepository;
 //import figureauction.figureauction.repository.ItemRepositoryV1;
 //import figureauction.figureauction.service.ItemService;
 //import figureauction.figureauction.service.ItemServiceV1;

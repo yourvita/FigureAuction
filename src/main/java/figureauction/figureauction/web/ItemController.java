@@ -1,8 +1,6 @@
 package figureauction.figureauction.web;
 
-import figureauction.figureauction.ItemRepository;
 import figureauction.figureauction.domain.Item;
-import figureauction.figureauction.repository.ItemRepositoryV1;
 import figureauction.figureauction.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
