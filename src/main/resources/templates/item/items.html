@@ -20,7 +20,7 @@
                     type="button">상품 등록
             </button>
         </div>
-        <div class="col-2">
+        <div class="col-2" th:if="${isLoggedIn}">
             <form th:action="@{/members/logout}" method="post">
                 <button type="submit" class="w-100 btn btn-dark btn-lg">로그아웃</button>
             </form>

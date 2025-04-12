@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="container">
-    <div th:if="${memberEmail}">
+    <div th:if="${isLoggedIn}">
         <form th:action="@{/members/logout}" method="post">
             <button type="submit" class="w-100 btn btn-dark btn-lg">로그아웃</button>
         </form>

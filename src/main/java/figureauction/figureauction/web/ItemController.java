@@ -1,7 +1,10 @@
 package figureauction.figureauction.web;
 
 import figureauction.figureauction.domain.Item;
+import figureauction.figureauction.domain.Member;
 import figureauction.figureauction.service.ItemService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -29,14 +32,23 @@ public class ItemController {
 
 
     @GetMapping
-    public String item(Model model) {
+    public String item(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+
+        isLoginCheck(model, session);
+
         List<Item> items = itemService.findAll();
         model.addAttribute("items", items);
+
         return "item/items";
     }
 
     @GetMapping("/{itemId}")
-    public String itemDetail(@PathVariable("itemId") long itemId, Model model) {
+    public String itemDetail(@PathVariable("itemId") long itemId,
+                             HttpServletRequest request,
+                             Model model) {
+        HttpSession session = request.getSession();
+        isLoginCheck(model, session);
         model.addAttribute("item", itemService.findOne(itemId));
         return "item/item";
     }
@@ -97,5 +109,12 @@ public class ItemController {
             image.transferTo(save);
         }
         return fileName;
+    }
+
+    private static void isLoginCheck(Model model, HttpSession session) {
+        String loginMember = (session != null) ? (String) session.getAttribute("memberEmail") : null;
+        boolean isLoggedIn = loginMember != null;
+        model.addAttribute("isLoggedIn", isLoggedIn);
+        model.addAttribute("memberEmail", isLoggedIn ? loginMember : null);
     }
 }

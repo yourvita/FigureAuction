@@ -4,6 +4,7 @@ package figureauction.figureauction.web;
 import figureauction.figureauction.domain.Member;
 import figureauction.figureauction.service.MemberService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class MemberController {
     }
 
     @PostMapping
-    public String login(Member member, BindingResult bindingResult, HttpServletResponse response) {
+    public String login(Member member, BindingResult bindingResult, HttpServletResponse response, HttpServletRequest request) {
         if(bindingResult.hasErrors()) {
             return "members/loginForm";
         }
@@ -37,18 +38,18 @@ public class MemberController {
             bindingResult.reject("login.error", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "members/loginForm";
         }
-        Cookie idCookie = new Cookie("memberEmail", tryLogin.getUserEmail());
-        response.addCookie(idCookie);
+        HttpSession session = request.getSession();
+        session.setAttribute("memberEmail", tryLogin.getUserEmail());
+
         return "redirect:/item";
     }
 
     @PostMapping("/logout")
-    public String logout(HttpServletResponse response, Model model) {
-        System.out.println("로그아웃");
-        Cookie cookie = new Cookie("memberEmail", null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if(session != null) {
+            session.invalidate();
+        }
 
         return "redirect:/";
     }
