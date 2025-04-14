@@ -4,6 +4,12 @@
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
             href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        img {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
 </head>
 <body>
 
@@ -17,8 +23,30 @@
             <button class="btn btn-primary float-end"
                     onclick="location.href='addForm.html'"
                     th:onclick="|location.href='@{/item/add}'|"
-                    type="button">상품 등록
+                    type="button"
+                    th:if="${isLoggedIn}">
+                상품 등록
             </button>
+            <div th:if="${isLoggedIn}">
+                <form th:action="@{/members/logout}" method="post">
+                    <button type="submit" class="w-100 btn btn-dark btn-lg">로그아웃</button>
+                </form>
+            </div>
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='loginForm.html'"
+                    th:onclick="|location.href='@{/members}'|"
+                    type="button"
+                    th:unless="${isLoggedIn}">
+                로그인
+            </button>
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='joinForm.html'"
+                    th:onclick="|location.href='@{/members/joinMember}'|"
+                    type="button"
+                    th:unless="${isLoggedIn}">
+                회원가입
+            </button>
+
         </div>
         <div class="col-2" th:if="${isLoggedIn}">
             <form th:action="@{/members/logout}" method="post">

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -40,6 +41,7 @@ public class MemberController {
         }
         HttpSession session = request.getSession();
         session.setAttribute("memberEmail", tryLogin.getUserEmail());
+        session.setAttribute("userName", tryLogin.getUserName());
 
         return "redirect:/item";
     }
@@ -52,5 +54,16 @@ public class MemberController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/joinMember")
+    public String joinForm() {
+        return "members/joinForm";
+    }
+
+    @PostMapping("/joinMember")
+    public String joinMember(@ModelAttribute Member member) {
+        service.joinMember(member);
+        return "redirect:/members";
     }
 }

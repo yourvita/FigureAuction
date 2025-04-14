@@ -19,8 +19,8 @@
     <h4 class="mb-3">상품 입력</h4>
     <form action="item.html" th:action method="post" enctype="multipart/form-data">
         <div>
-            <label for="sellerId">판매자 ID</label>
-            <input type="text" id="sellerId" name="sellerId" class="form-control" placeholder="판매자명을 입력하세요">
+            <label for="sellerId">판매자</label>
+            <input type="text" id="sellerId" name="sellerId" class="form-control" placeholder="판매자명을 입력하세요" th:value="${session.userName}" readonly>
         </div>
         <div>
             <label for="itemName">상품명</label>

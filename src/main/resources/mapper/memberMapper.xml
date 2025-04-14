@@ -10,7 +10,7 @@
     </select>
 
     <insert id="joinMember" useGeneratedKeys="true" keyProperty="userId" parameterType="Member">
-        insert into members(user_id, user_email, user_pw, user_name, user_phone, user_addr, user_grade, user_status) value(null, #{userEmail}, #{userPw}, #{userName}, #{userPhone}, #{userAddr}, #{userGrade}, #{userStatus});
+        insert into members(user_id, user_email, user_pw, user_name, user_phone, user_addr) value(null, #{userEmail}, #{userPw}, #{userName}, #{userPhone}, #{userAddr});
     </insert>
 
     <delete id="deleteMember">
