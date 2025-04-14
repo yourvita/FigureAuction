@@ -25,6 +25,15 @@ public class MemberRepositoryV1 implements MemberRepository {
         return mapper.findByEmail(userEmail);
     }
 
+    @Override
+    public Member findById(long userId) {
+        return mapper.findById(userId);
+    }
+
+    @Override
+    public void updateMember(Member member) {
+        mapper.updateMember(member);
+    }
 
 
 }

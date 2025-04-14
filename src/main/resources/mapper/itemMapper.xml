@@ -3,8 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="figureauction.figureauction.mapper.ItemMapper">
     <insert id="saveItem" useGeneratedKeys="true" keyProperty="itemId" parameterType="Item">
-        insert into item (item_id, seller_id, item_name, price, quantity, description_detail, image_Detail)
-        values (null, #{sellerId}, #{itemName}, #{price}, #{quantity},
+        insert into item (item_id, seller_id, user_email, item_name, price, quantity, description_detail, image_Detail)
+        values (null, #{sellerId}, #{userEmail}, #{itemName}, #{price}, #{quantity},
         #{descriptionDetail}, #{imageDetail})
     </insert>
 
@@ -20,4 +20,8 @@
         update item set item_name=#{item.itemName}, price=#{item.price}, quantity=#{item.quantity}, description_detail=#{item.descriptionDetail}, image_detail=#{item.imageDetail}
         where item_id = #{id}
     </update>
+
+    <delete id="deleteItem">
+        delete from item where item_id=#{id}
+    </delete>
 </mapper>

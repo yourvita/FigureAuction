@@ -38,4 +38,9 @@ public class ItemServiceV1 implements ItemService {
     public void update(long id, Item item) {
         itemRepository.update(id, item);
     }
+
+    @Override
+    public void deleteItem(long id) {
+        itemRepository.deleteItem(id);
+    }
 }

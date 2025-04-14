@@ -23,6 +23,9 @@
             <input type="text" id="sellerId" name="sellerId" class="form-control" placeholder="판매자명을 입력하세요" th:value="${session.userName}" readonly>
         </div>
         <div>
+            <input type="hidden" id="userEmail" name="userEmail" class="form-control" placeholder="유저 이메일을 입력하세요" th:value="${session.userEmail}" readonly>
+        </div>
+        <div>
             <label for="itemName">상품명</label>
             <input type="text" id="itemName" name="itemName" class="form-control" placeholder="이름을 입력하세요">
         </div>

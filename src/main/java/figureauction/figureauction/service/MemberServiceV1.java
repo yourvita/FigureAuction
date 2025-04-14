@@ -30,4 +30,14 @@ public class MemberServiceV1 implements MemberService {
         }
         return null;
     }
+
+    @Override
+    public Member findById(long userId) {
+        return repository.findById(userId);
+    }
+
+    @Override
+    public void updateMember(Member member) {
+        repository.updateMember(member);
+    }
 }

@@ -103,6 +103,13 @@ public class ItemController {
         return "redirect:/item/" + itemId;
     }
 
+    @PostMapping("/{itemId}/delete")
+    public String delete(@PathVariable long itemId) {
+        itemService.deleteItem(itemId);
+
+        return "redirect:/item";
+    }
+
     private String getImagePath(MultipartFile image) throws IOException {
         String fileName = null;
         if(!image.isEmpty()){

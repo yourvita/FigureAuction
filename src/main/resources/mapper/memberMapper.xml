@@ -5,13 +5,22 @@
         namespace :: SqlSession을 통해 Mapper 클래스에서 직접 호출하는 방법 으로
                 여러개의 SQL문을 묶어서 사용할 수 있다.
     -->
-    <select id="findByEmail">
+    <select id="findByEmail" resultType="member">
         select * from members where user_email = #{userEmail}
+    </select>
+
+    <select id="findById" resultType="member">
+        select * from members where user_id = #{userId}
     </select>
 
     <insert id="joinMember" useGeneratedKeys="true" keyProperty="userId" parameterType="Member">
         insert into members(user_id, user_email, user_pw, user_name, user_phone, user_addr) value(null, #{userEmail}, #{userPw}, #{userName}, #{userPhone}, #{userAddr});
     </insert>
+
+    <update id="updateMember">
+        update members set user_name = #{userName}, user_phone = #{userPhone}, user_addr = #{userAddr}, user_grade = #{userGrade}, user_status = #{userStatus}
+        where user_id = #{userId}
+    </update>
 
     <delete id="deleteMember">
         delete from members where user_id = #{userId}

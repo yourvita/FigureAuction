@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
@@ -10,6 +10,7 @@
             height: 50px;
         }
     </style>
+    <title>상품 등록 페이지</title>
 </head>
 <body>
 
@@ -19,7 +20,7 @@
         <h2>상품 목록</h2>
     </div>
     <div class="row">
-        <div class="col-2">
+        <div class="col-4">
             <button class="btn btn-primary float-end"
                     onclick="location.href='addForm.html'"
                     th:onclick="|location.href='@{/item/add}'|"
@@ -27,11 +28,20 @@
                     th:if="${isLoggedIn}">
                 상품 등록
             </button>
+        </div>
+        <div class="col-4">
             <div th:if="${isLoggedIn}">
                 <form th:action="@{/members/logout}" method="post">
                     <button type="submit" class="w-100 btn btn-dark btn-lg">로그아웃</button>
                 </form>
             </div>
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='admin.html'"
+                    th:onclick="|location.href='@{/admin}'|"
+                    type="button"
+                    th:if="${session.userEmail}=='admin@admin.com'">
+                관리자 페이지
+            </button>
             <button class="btn btn-primary float-end"
                     onclick="location.href='loginForm.html'"
                     th:onclick="|location.href='@{/members}'|"
@@ -39,6 +49,9 @@
                     th:unless="${isLoggedIn}">
                 로그인
             </button>
+
+        </div>
+        <div class="col-4">
             <button class="btn btn-primary float-end"
                     onclick="location.href='joinForm.html'"
                     th:onclick="|location.href='@{/members/joinMember}'|"
@@ -46,12 +59,14 @@
                     th:unless="${isLoggedIn}">
                 회원가입
             </button>
-
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='joinForm.html'"
+                    th:onclick="|location.href='@{/members/{userId}/edit(userId=${session.userId})}'|"
+                    type="button"
+                    th:if="${isLoggedIn}">
+                정보수정
+            </button>
         </div>
-        <div class="col-2" th:if="${isLoggedIn}">
-            <form th:action="@{/members/logout}" method="post">
-                <button type="submit" class="w-100 btn btn-dark btn-lg">로그아웃</button>
-            </form>
         </div>
     </div>
     <hr class="my-4">
@@ -65,6 +80,7 @@
                 <th>수량</th>
                 <th>설명</th>
                 <th>이미지</th>
+                <th>삭제</th>
             </tr>
             </thead>
             <tbody>
@@ -75,6 +91,14 @@
                 <td th:text="${item.quantity}">10</td>
                 <td th:text="${item.descriptionDetail}">잘 관리되었습니다.</td>
                 <td><img th:src="@{/item/itemimage/{filename}(filename=${item.imageDetail != null ? item.imageDetail : 'default.png'})}" alt="상품 이미지"></td>
+                <td th:if="${session.userEmail} != ${null} and ${item.userEmail}==${session.userEmail}">
+                    <form th:action="@{/item/{itemId}/delete(itemId=${item.itemId})}" method="post">
+                        <button type="submit" class="btn btn-primary float-end">
+                            삭제하기
+                        </button>
+                    </form>
+                </td>
+                <td th:if="${session.userEmail} == ${null} or ${item.userEmail}!=${session.userEmail}"></td>
             </tr>
             </tbody>
         </table>

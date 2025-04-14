@@ -12,10 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -41,6 +39,8 @@ public class MemberController {
         }
         HttpSession session = request.getSession();
         session.setAttribute("memberEmail", tryLogin.getUserEmail());
+        session.setAttribute("userEmail", tryLogin.getUserEmail());
+        session.setAttribute("userId", tryLogin.getUserId());
         session.setAttribute("userName", tryLogin.getUserName());
 
         return "redirect:/item";
@@ -65,5 +65,33 @@ public class MemberController {
     public String joinMember(@ModelAttribute Member member) {
         service.joinMember(member);
         return "redirect:/members";
+    }
+
+    @GetMapping("/{userId}/edit")
+    public String edit(@PathVariable long userId, Model model,
+                       HttpServletRequest request) {;
+        HttpSession session = request.getSession();
+        isLoginCheck(model, session);
+
+        model.addAttribute("member", service.findById(userId));
+        return "members/editMember";
+    }
+
+    @PostMapping("/{userId}/edit")
+    public String editMember(@ModelAttribute Member member, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        isLoginCheck(model, session);
+
+        service.updateMember(member);
+        model.addAttribute("member", service.findById(member.getUserId()));
+
+        return "members/member";
+    }
+
+    private static void isLoginCheck(Model model, HttpSession session) {
+        String loginMember = (session != null) ? (String) session.getAttribute("memberEmail") : null;
+        boolean isLoggedIn = loginMember != null;
+        model.addAttribute("isLoggedIn", isLoggedIn);
+        model.addAttribute("memberEmail", isLoggedIn ? loginMember : null);
     }
 }

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <link href="../css/bootstrap.min.css"
+        th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <style>
+    .container {
+      max-width: 560px;
+    }
+  </style>
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+
+  <div class="py-5 text-center">
+    <h2>회원 목록</h2>
+  </div>
+  <div class="row">
+    <div class="col-2">
+      <div th:if="${isLoggedIn}">
+        <form th:action="@{/members/logout}" method="post">
+          <button type="submit" class="w-100 btn btn-dark btn-lg">로그아웃</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <hr class="my-4">
+  <div>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>회원번호</th>
+        <th>이메일</th>
+        <th>이름</th>
+        <th>핸드폰번호</th>
+        <th>주소</th>
+        <th>회원등급</th>
+        <th>가입일자</th>
+        <th>정지여부</th>
+        <th>수정하기</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="member : ${memberList}">
+        <td th:text="${member.userId}"></td>
+        <td th:text="${member.userEmail}"></td>
+        <td th:text="${member.userName}">10000</td>
+        <td th:text="${member.userPhone}">10</td>
+        <td th:text="${member.userAddr}">잘 관리되었습니다.</td>
+        <td th:text="${member.userGrade}"></td>
+        <td th:text="${member.joinDate}"></td>
+        <td th:text="${member.userStatus}"></td>
+        <td><button class="w-100 btn btn-primary btn-lg" th:onclick="|location.href='@{/members/{userId}/edit(userId=${member.userId})}'|">수정하기</button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

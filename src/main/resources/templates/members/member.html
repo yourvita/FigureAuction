@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <link href="../css/bootstrap.min.css"
+        th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <style>
+    .container {
+      max-width: 560px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div th:if="${isLoggedIn}">
+    <form th:action="@{/members/logout}" method="post">
+      <button type="submit" class="w-100 btn btn-dark btn-lg">로그아웃</button>
+    </form>
+  </div>
+  <div class="py-5 text-center">
+    <h2>회원 정보</h2>
+  </div>
+    <div>
+      <input type="hidden" id="userId" name="userId" class="form-control"
+             value="1" th:value="${member.userId}" readonly>
+    </div>
+    <div>
+      <label for="userEmail">이메일</label>
+      <input type="email" id="userEmail" name="userEmail" class="form-control"
+             value="이메일"
+             th:value="${member.userEmail}" readonly>
+    </div>
+    <div>
+      <label for="userName">이름</label>
+      <input type="text" id="userName" name="userName" class="form-control"
+             value="이름"
+             th:value="${member.userName}" readonly>
+    </div>
+    <div>
+      <label for="userPhone">핸드폰번호</label>
+      <input type="tel" id="userPhone" name="userPhone" class="form-control"
+             value="10"
+             th:value="${member.userPhone}" readonly>
+    </div>
+    <div>
+      <label for="userAddr">주소</label>
+      <input type="text" id="userAddr" name="userAddr" class="form-control"
+             value=""
+             th:value="${member.userAddr}" readonly>
+    </div>
+    <div th:if="${session.userEmail}=='admin@admin.com'">
+
+      <label for="userGrade">회원 등급</label>
+      <input type="text" id="userGrade" name="userGrade" class="form-control"
+             th:value="${member.userGrade}" readonly>
+      <label for="userStatus">정지 여부</label>
+      <input type="text" id="userStatus" name="userStatus" class="form-control"
+             th:value="${member.userStatus}" readonly>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col">
+        <button class="w-100 btn btn-primary btn-lg"
+                onclick="location.href='editForm.html'"
+                th:onclick="|location.href='@{/members/{userId}/edit(userId=${member.userId})}'|"
+                type="button">정보 수정</button>
+      </div>
+      <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                onclick="location.href='items.html'"
+                th:onclick="|location.href='@{/}'|" type="button">목록으로</button>
+      </div>
+    </div>
+
+</div> <!-- /container -->
+</body>
+</html>

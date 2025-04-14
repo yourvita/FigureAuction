@@ -35,4 +35,9 @@ public class ItemRepositoryV1 implements ItemRepository {
     public void update(long id, Item item) {
         itemMapper.update(id, item);
     }
+
+    @Override
+    public void deleteItem(long id) {
+        itemMapper.deleteItem(id);
+    }
 }
