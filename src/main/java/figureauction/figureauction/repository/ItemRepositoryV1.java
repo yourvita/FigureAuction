@@ -40,4 +40,9 @@ public class ItemRepositoryV1 implements ItemRepository {
     public void deleteItem(long id) {
         itemMapper.deleteItem(id);
     }
+
+    @Override
+    public void bidUpdate(long id, int price) {
+        itemMapper.bidUpdate(id, price);
+    }
 }

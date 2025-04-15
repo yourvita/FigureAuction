@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -16,7 +17,7 @@ public class Member {
     private String userPhone;
     private String userAddr;
     private char userGrade;
-    private Date joinDate;
+    private LocalDateTime joinDate;
     private boolean userStatus;
 
     public Member(String userEmail, String userPw) {

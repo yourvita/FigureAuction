@@ -21,6 +21,10 @@
         where item_id = #{id}
     </update>
 
+    <update id="bidUpdate">
+        update item set price=#{price} where item_id=#{id}
+    </update>
+
     <delete id="deleteItem">
         delete from item where item_id=#{id}
     </delete>

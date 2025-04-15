@@ -12,4 +12,5 @@ public interface ItemService {
     Item findOne(long id);
     void update(long id, Item item);
     void deleteItem(long id);
+    void bidUpdate(long id, int price);
 }

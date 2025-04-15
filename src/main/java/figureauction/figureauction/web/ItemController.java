@@ -1,7 +1,9 @@
 package figureauction.figureauction.web;
 
+import figureauction.figureauction.domain.Auction;
 import figureauction.figureauction.domain.Item;
 import figureauction.figureauction.domain.Member;
+import figureauction.figureauction.service.AuctionService;
 import figureauction.figureauction.service.ItemService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -28,6 +30,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ItemController {
     private final ItemService itemService;
+    private final AuctionService auctionService;
     private final String uploadDir = "C:\\Users\\wlstj\\spring\\figureauction\\src\\main\\resources\\itemimage\\";
 
 
@@ -50,6 +53,9 @@ public class ItemController {
         HttpSession session = request.getSession();
         isLoginCheck(model, session);
         model.addAttribute("item", itemService.findOne(itemId));
+        model.addAttribute("auction", auctionService.findOne(itemId));
+        model.addAttribute("bid", auctionService.findBid(itemId));
+
         return "item/item";
     }
 
@@ -83,6 +89,10 @@ public class ItemController {
         String fileName = getImagePath(image);
         item.setImageDetail(fileName);
         Item savedItem = itemService.saveItem(item);
+        Item auctionItem = itemService.findOne(savedItem.getItemId());
+
+        log.info("call auctionService from ItemController");
+        auctionService.saveAuction(createAuction(auctionItem));
         redirectAttributes.addAttribute("itemId", savedItem.getItemId());
         redirectAttributes.addAttribute("status", true);
 
@@ -125,5 +135,16 @@ public class ItemController {
         boolean isLoggedIn = loginMember != null;
         model.addAttribute("isLoggedIn", isLoggedIn);
         model.addAttribute("memberEmail", isLoggedIn ? loginMember : null);
+    }
+
+    private static Auction createAuction(Item item) {
+        Auction auction = new Auction();
+        auction.setItemId(item.getItemId());
+        auction.setStartPrice(item.getPrice());
+        auction.setCurrentPrice(item.getPrice());
+        auction.setStartTime(item.getRegDate());
+        auction.setEndTime(item.getRegDate().plusDays(1));
+
+        return auction;
     }
 }
