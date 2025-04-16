@@ -120,6 +120,14 @@ public class ItemController {
         return "redirect:/item";
     }
 
+    @GetMapping("/{sellerId}/sellerItems")
+    public String sellerItems(@PathVariable String sellerId, Model model) {
+        List<Item> itemList = itemService.findBySellerId(sellerId);
+        model.addAttribute("itemList", itemList);
+
+        return "item/sellerItems";
+    }
+
     private String getImagePath(MultipartFile image) throws IOException {
         String fileName = null;
         if(!image.isEmpty()){

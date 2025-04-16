@@ -45,4 +45,9 @@ public class ItemRepositoryV1 implements ItemRepository {
     public void bidUpdate(long id, int price) {
         itemMapper.bidUpdate(id, price);
     }
+
+    @Override
+    public List<Item> findBySellerId(String sellerId) {
+        return itemMapper.findBySellerId(sellerId);
+    }
 }

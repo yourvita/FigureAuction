@@ -14,4 +14,5 @@ public interface ItemMapper {
     void update(@Param("id") long id, @Param("item") Item item);
     void deleteItem(long id);
     void bidUpdate(long id, int price);
+    List<Item> findBySellerId(String sellerId);
 }

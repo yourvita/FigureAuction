@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="utf-8">
+  <link th:href="@{/css/bootstrap.min.css}"
+        href="../css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+  <title>판매자 상품 리스트</title>
+</head>
+<body>
+<div>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>닉네임</th>
+      <th>상품명</th>
+      <th>가격</th>
+      <th>수량</th>
+      <th>설명</th>
+      <th>이미지</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${itemList}">
+      <td><a href="item.html" th:href="@{/item/{sellerId}(sellerId=${item.sellerId})}" th:text="${item.sellerId}">닉네임</a></td> <!--TODO 닉네임 클릭시 해당판매자가 등록한 물품 리스트 검색 -->
+      <td><a href="item.html" th:href="@{/item/{itemId}(itemId=${item.itemId})}" th:text="${item.itemName}">상품명</a></td>
+      <td th:text="${item.price}">10000</td>
+      <td th:text="${item.quantity}">10</td>
+      <td th:text="${item.descriptionDetail}">잘 관리되었습니다.</td>
+      <td><img th:src="@{/item/itemimage/{filename}(filename=${item.imageDetail != null ? item.imageDetail : 'default.png'})}" alt="상품 이미지"></td>
+      <td th:if="${session.userEmail} == ${null} or ${item.userEmail}!=${session.userEmail}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

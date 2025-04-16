@@ -13,4 +13,5 @@ public interface ItemService {
     void update(long id, Item item);
     void deleteItem(long id);
     void bidUpdate(long id, int price);
+    List<Item> findBySellerId(String sellerId);
 }

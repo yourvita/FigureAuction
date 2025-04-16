@@ -30,7 +30,6 @@ public class AuctionController {
         // itemId를 통해 클릭한 상품의 정보를 불러옴
         Item item = itemService.findOne(itemId);
         Auction auction = auctionService.findOne(itemId);
-        // TODO 왜 auction이 null이지?
         // bid 테이블에 입찰자와 입찰정보를 저장
         Bid bid = new Bid();
         bid.setAuctionId(auction.getAuctionId());

@@ -49,4 +49,9 @@ public class ItemServiceV1 implements ItemService {
         itemRepository.bidUpdate(id, price);
     }
 
+    @Override
+    public List<Item> findBySellerId(String sellerId) {
+        return itemRepository.findBySellerId(sellerId);
+    }
+
 }
