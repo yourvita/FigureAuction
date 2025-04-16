@@ -85,7 +85,9 @@ public class ItemController {
     }
 
     @PostMapping("/add")
-    public String addItem(@ModelAttribute("item") Item item,@RequestParam("imageName") MultipartFile image, RedirectAttributes redirectAttributes) throws IOException {
+    public String addItem(@ModelAttribute("item") Item item,
+                          @RequestParam("imageName") MultipartFile image,
+                          RedirectAttributes redirectAttributes) throws IOException {
         String fileName = getImagePath(image);
         item.setImageDetail(fileName);
         Item savedItem = itemService.saveItem(item);
@@ -121,7 +123,10 @@ public class ItemController {
     }
 
     @GetMapping("/{sellerId}/sellerItems")
-    public String sellerItems(@PathVariable String sellerId, Model model) {
+    public String sellerItems(@PathVariable String sellerId, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        isLoginCheck(model, session);
+
         List<Item> itemList = itemService.findBySellerId(sellerId);
         model.addAttribute("itemList", itemList);
 

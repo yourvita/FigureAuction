@@ -12,15 +12,9 @@ import java.util.List;
 public class ItemServiceV1 implements ItemService {
 
     private final ItemRepository itemRepository;
-    private final String uploadDir = "C:\\Users\\wlstj\\spring\\figureauction\\src\\main\\resources\\itemimage";
+
     @Override
     public Item saveItem(Item item) {
-//        String imageDetail = item.getImageDetail();
-//        String uniqueName = UUID.randomUUID() + "_" + imageDetail;
-//        File saveFile = new File(uploadDir, uniqueName);
-//        image.transferTo(saveFile);
-//        item.setImageDetail(imageDetail);
-
         return itemRepository.saveItem(item);
     }
 

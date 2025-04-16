@@ -82,7 +82,7 @@
             </thead>
             <tbody>
             <tr th:each="item : ${items}">
-                <td><a href="item.html" th:href="@{/item/{sellerId}/sellerItems(sellerId=${item.sellerId})}" th:text="${item.sellerId}">닉네임</a></td> <!--TODO 닉네임 클릭시 해당판매자가 등록한 물품 리스트 검색 -->
+                <td><a href="item.html" th:href="@{/item/{sellerId}/sellerItems(sellerId=${item.sellerId})}" th:text="${item.sellerId}">닉네임</a></td>
                 <td><a href="item.html" th:href="@{/item/{itemId}(itemId=${item.itemId})}" th:text="${item.itemName}">상품명</a></td>
                 <td th:text="${item.price}">10000</td>
                 <td th:text="${item.quantity}">10</td>
