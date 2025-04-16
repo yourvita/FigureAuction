@@ -1,6 +1,7 @@
 package figureauction.figureauction.web;
 
 import figureauction.figureauction.service.AdminService;
+import figureauction.figureauction.web.util.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -18,31 +19,22 @@ public class AdminController {
     private final AdminService service;
 
     @GetMapping
-    public String admin(HttpServletRequest request) {
-        request.getSession().setAttribute("adminAccess", true);
+    public String admin(HttpSession session) {
+        session.setAttribute("adminAccess", true);
         return "redirect:/admin/adminPage";
     }
 
     @GetMapping("/adminPage")
-    public String adminPage(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
+    public String adminPage(Model model, HttpSession session) {
         Boolean allowed = (session != null) ? (Boolean) session.getAttribute("adminAccess") : null;
-        if(allowed == null || !allowed) {
+        if (allowed == null || !allowed) {
             log.warn("Admin access is denied");
             return "redirect:/";
         }
 
         session.removeAttribute("adminAccess");
-        isLoginCheck(model, session);
-        model.addAttribute("memberList",service.memberList());
+        service.prepareAdmin(model, session);
 
         return "admin/admin";
-    }
-
-    private static void isLoginCheck(Model model, HttpSession session) {
-        String loginMember = (session != null) ? (String) session.getAttribute("memberEmail") : null;
-        boolean isLoggedIn = loginMember != null;
-        model.addAttribute("isLoggedIn", isLoggedIn);
-        model.addAttribute("memberEmail", isLoggedIn ? loginMember : null);
     }
 }
