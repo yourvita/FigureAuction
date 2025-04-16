@@ -66,7 +66,7 @@
                         type="button">상품 수정
                 </button>
             </div>
-            <div th:if="${item.userEmail != session.userEmail or session.userEmail != null}">
+            <div th:if="${memberEmail != null and item.userEmail != memberEmail}">
                 <button class="w-100 btn btn-primary btn-lg"
                         onclick="location.href='bid.html'"
                         th:onclick="|location.href='@{/auction/{itemId}/bid(itemId=${item.itemId})}'|"
@@ -82,18 +82,19 @@
     </div>
 
     <!-- 입찰 -->
+    <div th:if="${memberEmail != null and item.userEmail != memberEmail}">
     <h2>입찰</h2>
-    <div>
-        <form th:action="@{/auction/{itemId}/bid(itemId=${item.itemId})}" method="post">
-            <label for="bidUnit">입찰가</label>
-            <select id="bidUnit" name="bidUnit">
-                <option value="1000">1000</option>
-                <option value="5000">5000</option>
-                <option value="10000">10000</option>
-            </select>
-            <button type="submit">입찰</button>
-        </form>
-
+        <div>
+            <form th:action="@{/auction/{itemId}/bid(itemId=${item.itemId})}" method="post">
+                <label for="bidUnit">입찰가</label>
+                <select id="bidUnit" name="bidUnit">
+                    <option value="1000">1000</option>
+                    <option value="5000">5000</option>
+                    <option value="10000">10000</option>
+                </select>
+                <button type="submit">입찰</button>
+            </form>
+        </div>
     </div>
 </div> <!-- /container -->
 </body>

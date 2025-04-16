@@ -51,7 +51,7 @@ public class ItemController {
         SessionUtil.setLoginAttributes(model, session);
         model.addAttribute("item", itemService.findOne(itemId));
         model.addAttribute("auction", auctionService.findOne(itemId));
-        model.addAttribute("bid", auctionService.findBid(itemId));
+//        model.addAttribute("bid", auctionService.findBid(itemId));
 
         return "item/item";
     }
@@ -75,7 +75,8 @@ public class ItemController {
                           RedirectAttributes redirectAttributes) throws IOException {
         String fileName = fileUploadUtil.getImagePath(image);
         item.setImageDetail(fileName);
-        Item savedItem = itemService.createItemWithAuction(item);
+        Item savedItem = itemService.saveItem(item);
+        auctionService.createItemAndAuction(savedItem);
 
         redirectAttributes.addAttribute("itemId", savedItem.getItemId());
         redirectAttributes.addAttribute("status", true);

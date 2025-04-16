@@ -39,10 +39,10 @@ public class AuctionServiceV1 implements AuctionService {
     }
 
     @Override
-    public void regBid(long itemId, long userId, int bidUnit) {
+    public void regBid(long userId, long itemId, int bidUnit) {
         // itemId를 통해 클릭한 상품의 정보를 불러옴
         Item item = itemService.findOne(itemId);
-        Auction auction = findOne(itemId);
+        Auction auction = findOne(item.getItemId());
 
         int currentPrice = auction.getCurrentPrice() + bidUnit;
         // 입찰 정보 생성
@@ -59,5 +59,19 @@ public class AuctionServiceV1 implements AuctionService {
         itemService.bidUpdate(itemId, currentPrice);
         updatePrice(auction);
         saveBid(bid);
+    }
+
+    @Override
+    public Item createItemAndAuction(Item item) {
+        Item savedItem = itemService.findOne(item.getItemId());
+        Auction auction = new Auction();
+        auction.setItemId(savedItem.getItemId());
+        auction.setStartPrice(savedItem.getPrice());
+        auction.setCurrentPrice(savedItem.getPrice());
+        auction.setStartTime(savedItem.getRegDate());
+        auction.setEndTime(savedItem.getRegDate().plusDays(1));
+        saveAuction(auction);
+
+        return savedItem;
     }
 }

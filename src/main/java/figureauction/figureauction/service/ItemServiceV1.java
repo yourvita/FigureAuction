@@ -13,25 +13,10 @@ import java.util.List;
 public class ItemServiceV1 implements ItemService {
 
     private final ItemRepository itemRepository;
-    private final AuctionService auctionService;
 
     @Override
     public Item saveItem(Item item) {
         return itemRepository.saveItem(item);
-    }
-
-    public Item createItemWithAuction(Item item) {
-        itemRepository.saveItem(item);
-        Item savedItem = findOne(item.getItemId());
-        Auction auction = new Auction();
-        auction.setItemId(savedItem.getItemId());
-        auction.setStartPrice(savedItem.getPrice());
-        auction.setCurrentPrice(savedItem.getPrice());
-        auction.setStartTime(savedItem.getRegDate());
-        auction.setEndTime(savedItem.getRegDate().plusDays(1));
-        auctionService.saveAuction(auction);
-
-        return savedItem;
     }
 
     @Override
