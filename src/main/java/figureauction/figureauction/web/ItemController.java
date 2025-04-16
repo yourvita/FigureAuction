@@ -1,10 +1,11 @@
 package figureauction.figureauction.web;
 
-import figureauction.figureauction.domain.Auction;
 import figureauction.figureauction.domain.Item;
-import figureauction.figureauction.domain.Member;
 import figureauction.figureauction.service.AuctionService;
 import figureauction.figureauction.service.ItemService;
+import figureauction.figureauction.service.ItemServiceV1;
+import figureauction.figureauction.web.util.FileUploadUtil;
+import figureauction.figureauction.web.util.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -29,16 +30,13 @@ import java.util.UUID;
 @RequestMapping("/item")
 @RequiredArgsConstructor
 public class ItemController {
-    private final ItemService itemService;
+    private final ItemServiceV1 itemService;
     private final AuctionService auctionService;
-    private final String uploadDir = "C:\\Users\\wlstj\\spring\\figureauction\\src\\main\\resources\\itemimage\\";
-
+    private final FileUploadUtil fileUploadUtil;
 
     @GetMapping
-    public String item(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-
-        isLoginCheck(model, session);
+    public String item(HttpSession session, Model model) {
+        SessionUtil.setLoginAttributes(model, session);
 
         List<Item> items = itemService.findAll();
         model.addAttribute("items", items);
@@ -48,10 +46,9 @@ public class ItemController {
 
     @GetMapping("/{itemId}")
     public String itemDetail(@PathVariable("itemId") long itemId,
-                             HttpServletRequest request,
+                             HttpSession session,
                              Model model) {
-        HttpSession session = request.getSession();
-        isLoginCheck(model, session);
+        SessionUtil.setLoginAttributes(model, session);
         model.addAttribute("item", itemService.findOne(itemId));
         model.addAttribute("auction", auctionService.findOne(itemId));
         model.addAttribute("bid", auctionService.findBid(itemId));
@@ -62,24 +59,12 @@ public class ItemController {
     @GetMapping("/itemimage/{imageDetail}")
     @ResponseBody
     public Resource downloadImage(@PathVariable("imageDetail") String filename) throws MalformedURLException {
-        UrlResource resource;
-
-        try{
-            resource = new UrlResource("file:" + uploadDir + filename);
-            if(!resource.exists() || !resource.isReadable()) {
-                throw new FileNotFoundException();
-            }
-        } catch (FileNotFoundException e) {
-            resource = new UrlResource("file:" + uploadDir + "default.png");
-        }
-
-        return resource;
+        return fileUploadUtil.loadImage(filename);
     }
 
 
     @GetMapping("/add")
-    public String addForm(HttpServletRequest request) {
-        HttpSession session = request.getSession();
+    public String addForm(HttpSession session) {
         session.setAttribute("userName", session.getAttribute("userName"));
         return "item/addForm";
     }
@@ -88,13 +73,10 @@ public class ItemController {
     public String addItem(@ModelAttribute("item") Item item,
                           @RequestParam("imageName") MultipartFile image,
                           RedirectAttributes redirectAttributes) throws IOException {
-        String fileName = getImagePath(image);
+        String fileName = fileUploadUtil.getImagePath(image);
         item.setImageDetail(fileName);
-        Item savedItem = itemService.saveItem(item);
-        Item auctionItem = itemService.findOne(savedItem.getItemId());
+        Item savedItem = itemService.createItemWithAuction(item);
 
-        log.info("call auctionService from ItemController");
-        auctionService.saveAuction(createAuction(auctionItem));
         redirectAttributes.addAttribute("itemId", savedItem.getItemId());
         redirectAttributes.addAttribute("status", true);
 
@@ -109,7 +91,7 @@ public class ItemController {
 
     @PostMapping("/{itemId}/edit")
     public String edit(@PathVariable long itemId, @ModelAttribute Item item,@RequestParam("imageName") MultipartFile image, RedirectAttributes redirectAttributes) throws IOException {
-        String fileName = getImagePath(image);
+        String fileName = fileUploadUtil.getImagePath(image);
         item.setImageDetail(fileName);
         itemService.update(itemId, item);
         return "redirect:/item/" + itemId;
@@ -123,9 +105,8 @@ public class ItemController {
     }
 
     @GetMapping("/{sellerId}/sellerItems")
-    public String sellerItems(@PathVariable String sellerId, Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        isLoginCheck(model, session);
+    public String sellerItems(@PathVariable String sellerId, Model model, HttpSession session) {
+        SessionUtil.setLoginAttributes(model, session);
 
         List<Item> itemList = itemService.findBySellerId(sellerId);
         model.addAttribute("itemList", itemList);
@@ -133,31 +114,4 @@ public class ItemController {
         return "item/sellerItems";
     }
 
-    private String getImagePath(MultipartFile image) throws IOException {
-        String fileName = null;
-        if(!image.isEmpty()){
-            fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
-            File save = new File(uploadDir + fileName);
-            image.transferTo(save);
-        }
-        return fileName;
-    }
-
-    private static void isLoginCheck(Model model, HttpSession session) {
-        String loginMember = (session != null) ? (String) session.getAttribute("memberEmail") : null;
-        boolean isLoggedIn = loginMember != null;
-        model.addAttribute("isLoggedIn", isLoggedIn);
-        model.addAttribute("memberEmail", isLoggedIn ? loginMember : null);
-    }
-
-    private static Auction createAuction(Item item) {
-        Auction auction = new Auction();
-        auction.setItemId(item.getItemId());
-        auction.setStartPrice(item.getPrice());
-        auction.setCurrentPrice(item.getPrice());
-        auction.setStartTime(item.getRegDate());
-        auction.setEndTime(item.getRegDate().plusDays(1));
-
-        return auction;
-    }
 }

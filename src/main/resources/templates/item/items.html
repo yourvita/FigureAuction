@@ -78,6 +78,7 @@
                 <th>수량</th>
                 <th>설명</th>
                 <th>이미지</th>
+                <th th:if="${session.userEmail =='admin@admin.com'}">삭제</th>
             </tr>
             </thead>
             <tbody>
@@ -89,6 +90,13 @@
                 <td th:text="${item.descriptionDetail}">잘 관리되었습니다.</td>
                 <td><img th:src="@{/item/itemimage/{filename}(filename=${item.imageDetail != null ? item.imageDetail : 'default.png'})}" alt="상품 이미지"></td>
                 <td th:if="${session.userEmail} == ${null} or ${item.userEmail}!=${session.userEmail}"></td>
+                <td th:if="${session.userEmail} == 'admin@admin.com'">
+                    <form th:action="@{/item/{itemId}/delete(itemId=${item.itemId})}" method="post">
+                        <button type="submit" class="btn btn-primary float-end">
+                            삭제하기
+                        </button>
+                    </form>
+                <!--TODO 관리자는 상품을 삭제할 수 있다. 상품 삭제시 item테이블, auction테이블, bid테이블 3개가 모두 삭제되어야 한다. -->
             </tr>
             </tbody>
         </table>
