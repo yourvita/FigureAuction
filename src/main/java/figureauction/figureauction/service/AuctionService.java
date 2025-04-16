@@ -10,4 +10,5 @@ public interface AuctionService {
     void updatePrice(Auction auction);
     Auction findOne(Long auctionId);
     Bid findBid(Long auctionId);
+    void regBid(long itemId, long userId, int bidUnit);
 }

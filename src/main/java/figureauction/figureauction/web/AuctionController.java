@@ -22,33 +22,12 @@ public class AuctionController {
     private final ItemService itemService;
 
     @PostMapping("/{itemId}/bid")
-    public String bid(@PathVariable long itemId, @RequestParam int bidUnit, Model model, HttpServletRequest request) {
+    public String bid(@PathVariable long itemId,
+                      @RequestParam int bidUnit,
+                      HttpSession session) {
         // 로그인한 사용자의 ID를 불러옴
-        HttpSession session = request.getSession();
         Long userId = (Long) session.getAttribute("userId");
-
-        // itemId를 통해 클릭한 상품의 정보를 불러옴
-        Item item = itemService.findOne(itemId);
-        Auction auction = auctionService.findOne(itemId);
-        // bid 테이블에 입찰자와 입찰정보를 저장
-        Bid bid = new Bid();
-        bid.setAuctionId(auction.getAuctionId());
-        bid.setBidderId(userId);
-        int currentPrice = auction.getCurrentPrice() + bidUnit;
-        bid.setBidPrice(currentPrice);
-
-        log.info("auctionCurrentPrice {}", auction.getCurrentPrice());
-        log.info("bidUnit{}", bidUnit);
-
-        auction.setCurrentPrice(currentPrice);
-        item.setPrice(currentPrice);
-
-        log.info("afterAuctionCurrentPrice {}", auction.getCurrentPrice());
-        log.info("call auctionService from AuctionController");
-
-        itemService.bidUpdate(itemId, currentPrice);
-        auctionService.updatePrice(auction);
-        auctionService.saveBid(bid);
+        auctionService.regBid(userId, itemId, bidUnit);
 
         return "redirect:/item/" + itemId;
     }

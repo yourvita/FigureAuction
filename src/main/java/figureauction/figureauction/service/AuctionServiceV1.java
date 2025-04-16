@@ -2,6 +2,7 @@ package figureauction.figureauction.service;
 
 import figureauction.figureauction.domain.Auction;
 import figureauction.figureauction.domain.Bid;
+import figureauction.figureauction.domain.Item;
 import figureauction.figureauction.repository.AuctionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuctionServiceV1 implements AuctionService {
     private final AuctionRepository repository;
+    private final ItemService itemService;
 
     @Override
     public void saveAuction(Auction auction) {
@@ -34,5 +36,28 @@ public class AuctionServiceV1 implements AuctionService {
     @Override
     public Bid findBid(Long auctionId) {
         return repository.findBid(auctionId);
+    }
+
+    @Override
+    public void regBid(long itemId, long userId, int bidUnit) {
+        // itemId를 통해 클릭한 상품의 정보를 불러옴
+        Item item = itemService.findOne(itemId);
+        Auction auction = findOne(itemId);
+
+        int currentPrice = auction.getCurrentPrice() + bidUnit;
+        // 입찰 정보 생성
+        Bid bid = new Bid();
+        bid.setAuctionId(auction.getAuctionId());
+        bid.setBidderId(userId);
+        bid.setBidPrice(currentPrice);
+
+        // 가격 업데이트
+        auction.setCurrentPrice(currentPrice);
+        item.setPrice(currentPrice);
+
+        // 입찰 정보 업데이트 및 저장
+        itemService.bidUpdate(itemId, currentPrice);
+        updatePrice(auction);
+        saveBid(bid);
     }
 }
