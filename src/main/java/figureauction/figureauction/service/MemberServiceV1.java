@@ -2,8 +2,11 @@ package figureauction.figureauction.service;
 
 import figureauction.figureauction.domain.Member;
 import figureauction.figureauction.repository.MemberRepository;
+import figureauction.figureauction.web.util.SessionUtil;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 @Service
 @RequiredArgsConstructor
@@ -19,23 +22,18 @@ public class MemberServiceV1 implements MemberService {
     public void deleteMember(long userId) {
 
     }
-
     @Override
     public Member loginMember(String userEmail, String userPw) {
         Member loginMember = repository.findByEmail(userEmail);
-        if(loginMember != null) {
-            if(loginMember.getUserPw().equals(userPw)) {
+        if(loginMember != null && loginMember.matchPassword(userPw)) {
                 return loginMember;
-            }
         }
         return null;
     }
-
     @Override
     public Member findById(long userId) {
         return repository.findById(userId);
     }
-
     @Override
     public void updateMember(Member member) {
         repository.updateMember(member);

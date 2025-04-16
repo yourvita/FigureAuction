@@ -3,6 +3,8 @@ package figureauction.figureauction.web;
 
 import figureauction.figureauction.domain.Member;
 import figureauction.figureauction.service.MemberService;
+import figureauction.figureauction.service.MemberServiceV1;
+import figureauction.figureauction.web.util.SessionUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/members")
 @RequiredArgsConstructor
 public class MemberController {
-    private final MemberService service;
+    private final MemberServiceV1 service;
 
     @GetMapping
     public String loginForm() {
@@ -28,7 +30,7 @@ public class MemberController {
     }
 
     @PostMapping
-    public String login(Member member, BindingResult bindingResult, HttpServletResponse response, HttpServletRequest request) {
+    public String login(Member member, BindingResult bindingResult, HttpSession session) {
         if(bindingResult.hasErrors()) {
             return "members/loginForm";
         }
@@ -37,22 +39,15 @@ public class MemberController {
             bindingResult.reject("login.error", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "members/loginForm";
         }
-        HttpSession session = request.getSession();
-        session.setAttribute("memberEmail", tryLogin.getUserEmail());
-        session.setAttribute("userEmail", tryLogin.getUserEmail());
-        session.setAttribute("userId", tryLogin.getUserId());
-        session.setAttribute("userName", tryLogin.getUserName());
+
+        SessionUtil.setLoginSession(session, tryLogin);
 
         return "redirect:/item";
     }
 
     @PostMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        if(session != null) {
-            session.invalidate();
-        }
-
+    public String logout(HttpSession session) {
+        SessionUtil.removeLoginAttributes(session);
         return "redirect:/";
     }
 
@@ -69,29 +64,19 @@ public class MemberController {
 
     @GetMapping("/{userId}/edit")
     public String edit(@PathVariable long userId, Model model,
-                       HttpServletRequest request) {;
-        HttpSession session = request.getSession();
-        isLoginCheck(model, session);
+                       HttpSession session) {;
+        SessionUtil.setLoginAttributes(model, session);
 
         model.addAttribute("member", service.findById(userId));
         return "members/editMember";
     }
 
     @PostMapping("/{userId}/edit")
-    public String editMember(@ModelAttribute Member member, Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        isLoginCheck(model, session);
-
+    public String editMember(@ModelAttribute Member member, Model model, HttpSession session) {
+        SessionUtil.setLoginAttributes(model, session);
         service.updateMember(member);
         model.addAttribute("member", service.findById(member.getUserId()));
 
         return "members/member";
-    }
-
-    private static void isLoginCheck(Model model, HttpSession session) {
-        String loginMember = (session != null) ? (String) session.getAttribute("memberEmail") : null;
-        boolean isLoggedIn = loginMember != null;
-        model.addAttribute("isLoggedIn", isLoggedIn);
-        model.addAttribute("memberEmail", isLoggedIn ? loginMember : null);
     }
 }

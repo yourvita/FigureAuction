@@ -24,4 +24,8 @@ public class Member {
         this.userEmail = userEmail;
         this.userPw = userPw;
     }
+
+    public boolean matchPassword(String inputPw) {
+        return this.userPw.equals(inputPw);
+    }
 }
