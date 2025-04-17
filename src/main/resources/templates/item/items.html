@@ -78,20 +78,22 @@
                 <th>수량</th>
                 <th>설명</th>
                 <th>이미지</th>
+                <th>진행</th>
                 <th th:if="${session.userEmail =='admin@admin.com'}">삭제</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="item : ${items}">
-                <td><a href="item.html" th:href="@{/item/{sellerId}/sellerItems(sellerId=${item.sellerId})}" th:text="${item.sellerId}">닉네임</a></td>
-                <td><a href="item.html" th:href="@{/item/{itemId}(itemId=${item.itemId})}" th:text="${item.itemName}">상품명</a></td>
-                <td th:text="${item.price}">10000</td>
-                <td th:text="${item.quantity}">10</td>
-                <td th:text="${item.descriptionDetail}">잘 관리되었습니다.</td>
-                <td><img th:src="@{/item/itemimage/{filename}(filename=${item.imageDetail != null ? item.imageDetail : 'default.png'})}" alt="상품 이미지"></td>
-                <td th:if="${session.userEmail} == ${null} or ${item.userEmail}!=${session.userEmail}"></td>
+            <tr th:each="itemInfo : ${itemAuctions}">
+                <td><a href="item.html" th:href="@{/item/{sellerId}/sellerItems(sellerId=${itemInfo.item.sellerId})}" th:text="${itemInfo.item.sellerId}">닉네임</a></td>
+                <td><a href="item.html" th:href="@{/item/{itemId}(itemId=${itemInfo.item.itemId})}" th:text="${itemInfo.item.itemName}">상품명</a></td>
+                <td th:text="${itemInfo.item.price}">10000</td>
+                <td th:text="${itemInfo.item.quantity}">10</td>
+                <td th:text="${itemInfo.item.descriptionDetail}">잘 관리되었습니다.</td>
+                <td><img th:src="@{/item/itemimage/{filename}(filename=${itemInfo.item.imageDetail != null ? itemInfo.item.imageDetail : 'default.png'})}" alt="상품 이미지"></td>
+                <td th:text="${itemInfo.auction.itemStatus}">status</td>
+<!--                <td th:if="${session.userEmail} == ${null} or ${itemInfo.item.userEmail}!=${session.userEmail}"></td>-->
                 <td th:if="${session.userEmail} == 'admin@admin.com'">
-                    <form th:action="@{/item/{itemId}/delete(itemId=${item.itemId})}" method="post">
+                    <form th:action="@{/item/{itemId}/delete(itemId=${itemInfo.item.itemId})}" method="post">
                         <button type="submit" class="btn btn-primary"> <!--class=float-end 지웠음-->
                             삭제하기
                         </button>

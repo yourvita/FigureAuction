@@ -1,6 +1,7 @@
 package figureauction.figureauction.service;
 
 import figureauction.figureauction.domain.Item;
+import figureauction.figureauction.domain.ItemAuctionDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

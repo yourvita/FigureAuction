@@ -7,12 +7,19 @@ import figureauction.figureauction.repository.AuctionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuctionServiceV1 implements AuctionService {
     private final AuctionRepository repository;
     private final ItemService itemService;
     private final MemberService memberService;
+
+    @Override
+    public List<Auction> findAll() {
+        return repository.findAll();
+    }
 
     @Override
     public void saveAuction(Auction auction) {

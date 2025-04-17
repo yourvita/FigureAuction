@@ -13,7 +13,7 @@ import java.util.Date;
 public class Bid {
     private int bidId; // 입찰 ID
     private int auctionId; // 경매번호
-    private Long bidderId; // TODO 입찰자 ID -> ID를 통해서 닉네임 보여줘야함
+    private Long bidderId;
     private int bidPrice;
     private Date bidTime;
 

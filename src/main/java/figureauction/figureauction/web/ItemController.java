@@ -2,6 +2,7 @@ package figureauction.figureauction.web;
 
 import figureauction.figureauction.domain.Auction;
 import figureauction.figureauction.domain.Item;
+import figureauction.figureauction.domain.ItemAuctionDto;
 import figureauction.figureauction.service.AuctionService;
 import figureauction.figureauction.service.ItemService;
 import figureauction.figureauction.service.ItemServiceV1;
@@ -23,6 +24,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -41,7 +43,18 @@ public class ItemController {
         SessionUtil.setLoginAttributes(model, session);
 
         List<Item> items = itemService.findAll();
-        model.addAttribute("items", items);
+        List<Auction> auctions = auctionService.findAll();
+        List<ItemAuctionDto> itemAuctionList = new ArrayList<>();
+        for(Item item : items) {
+            for(Auction auction : auctions) {
+                if(auction.getItemId() == item.getItemId()) {
+                    itemAuctionList.add(new ItemAuctionDto(item, auction));
+                    break;
+                }
+            }
+        }
+
+        model.addAttribute("itemAuctions", itemAuctionList);
 
         return "item/items";
     }

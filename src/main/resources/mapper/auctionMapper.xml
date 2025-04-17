@@ -3,6 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="figureauction.figureauction.mapper.AuctionMapper">
 
+    <select id="findAll">
+        select * from auction
+    </select>
+
     <insert id="saveAuction" parameterType="auction">
         insert into auction(item_Id, start_price, current_price, start_time, end_time)
         values (#{itemId}, #{startPrice}, #{startPrice}, #{startTime}, #{endTime})

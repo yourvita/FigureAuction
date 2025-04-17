@@ -6,11 +6,18 @@ import figureauction.figureauction.mapper.AuctionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class AuctionRepositoryV1 implements AuctionRepository {
 
     private final AuctionMapper mapper;
+
+    @Override
+    public List<Auction> findAll() {
+        return mapper.findAll();
+    }
 
     @Override
     public void saveAuction(Auction auction) {

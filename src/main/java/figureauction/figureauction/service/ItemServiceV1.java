@@ -1,12 +1,15 @@
 package figureauction.figureauction.service;
 
 import figureauction.figureauction.domain.Auction;
+import figureauction.figureauction.domain.ItemAuctionDto;
 import figureauction.figureauction.repository.ItemRepository;
 import figureauction.figureauction.domain.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

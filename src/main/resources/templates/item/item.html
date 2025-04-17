@@ -71,7 +71,7 @@
                         type="button">상품 수정
                 </button>
             </div>
-            <div th:if="${memberEmail != null and item.userEmail != memberEmail}">
+            <div th:if="${memberEmail != null and item.userEmail != memberEmail and auction.itemStatus !='end'}">
                 <button class="w-100 btn btn-primary btn-lg"
                         onclick="location.href='bid.html'"
                         th:onclick="|location.href='@{/auction/{itemId}/bid(itemId=${item.itemId})}'|"
