@@ -68,6 +68,7 @@ public class MemberController {
         SessionUtil.setLoginAttributes(model, session);
 
         model.addAttribute("member", service.findById(userId));
+        log.info("등급: {}", service.findById(userId).getUserGrade());
         return "members/editMember";
     }
 
@@ -75,6 +76,9 @@ public class MemberController {
     public String editMember(@ModelAttribute Member member, Model model, HttpSession session) {
         SessionUtil.setLoginAttributes(model, session);
         service.updateMember(member);
+        if(member.getUserEmail().equals("admin")) {
+            return "redirect:/admin";
+        }
         model.addAttribute("member", service.findById(member.getUserId()));
 
         return "members/member";

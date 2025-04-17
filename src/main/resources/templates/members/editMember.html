@@ -51,16 +51,19 @@
                    th:value="${member.userAddr}">
         </div>
         <div th:if="${session.userEmail}=='admin@admin.com'">
+            <p>디버그 [[${member.userGrade}]]</p>
             <label for="userGrade">회원 등급</label>
-            <select class="form-select form-select-sm" name="userGrade" id="userGrade">
-                <option value="A" th:selected="${member.userGrade}=='A' ">A</option>
-                <option value="B" th:selected="${member.userGrade}=='B' ">B</option>
-                <option value="C" th:selected="${member.userGrade}=='C'">C</option>
+            <select class="form-select form-select-sm" name="userGrade" id="userGrade"
+                    th:field="${member.userGrade}" th:value="${member.userGrade}">
+                <option th:value="'A'" th:text="A"></option>
+                <option th:value="'B'" th:text="B"></option>
+                <option th:value="'C'" th:text="C"></option>
             </select>
             <label for="userStatus">정지 여부</label>
-            <select class="form-select form-select-sm" name="userStatus" id="userStatus">
-                <option value="true" th:selected="${member.userStatus}==1 ">정상</option>
-                <option value="false" th:selected="${member.userStatus}==0 ">정지</option>
+            <select class="form-select form-select-sm" name="userStatus" id="userStatus"
+                    th:field="${member.userStatus}" th:value="${member.userStatus}">
+                <option th:value="true" th:text="정상"></option>
+                <option th:value="false" th:text="정지"></option>
             </select>
 
         </div>
