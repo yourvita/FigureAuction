@@ -17,6 +17,14 @@
         select * from auction where item_id=#{itemId}
     </select>
 
+    <select id="findBidMaxPrice" resultType="bid">
+        SELECT *
+        FROM bid
+        WHERE auction_id = #{auctionId}
+        ORDER BY bid_price DESC
+        LIMIT 1;
+    </select>
+
     <select id="findBid" resultType="bid">
         select * from bid where auction_id=#{auctionId}
     </select>

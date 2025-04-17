@@ -9,4 +9,5 @@ public interface AuctionRepository {
     void updatePrice(Auction auction);
     Auction findOne(Long auctionId);
     Bid findBid(Long auctionId);
+    Bid findBidMaxPrice(Long auctionId);
 }

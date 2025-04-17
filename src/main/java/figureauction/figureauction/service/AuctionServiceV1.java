@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class AuctionServiceV1 implements AuctionService {
     private final AuctionRepository repository;
     private final ItemService itemService;
+    private final MemberService memberService;
 
     @Override
     public void saveAuction(Auction auction) {
@@ -62,7 +63,7 @@ public class AuctionServiceV1 implements AuctionService {
     }
 
     @Override
-    public Item createItemAndAuction(Item item) {
+    public void createItemAndAuction(Item item) {
         Item savedItem = itemService.findOne(item.getItemId());
         Auction auction = new Auction();
         auction.setItemId(savedItem.getItemId());
@@ -72,6 +73,19 @@ public class AuctionServiceV1 implements AuctionService {
         auction.setEndTime(savedItem.getRegDate().plusDays(1));
         saveAuction(auction);
 
-        return savedItem;
+    }
+
+    @Override
+    public Bid findBidMaxPrice(long auctionId) {
+        return repository.findBidMaxPrice(auctionId);
+    }
+
+    @Override
+    public String getAuctionBidderName(long auctionId) {
+        if(findBidMaxPrice(auctionId)!=null) {
+            Long bidderId = findBidMaxPrice(auctionId).getBidderId();
+            return memberService.findById(bidderId).getUserName();
+        }
+        return null;
     }
 }

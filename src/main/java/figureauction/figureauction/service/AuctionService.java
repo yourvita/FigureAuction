@@ -12,5 +12,7 @@ public interface AuctionService {
     Auction findOne(Long auctionId);
     Bid findBid(Long auctionId);
     void regBid(long itemId, long userId, int bidUnit);
-    Item createItemAndAuction(Item item);
+    void createItemAndAuction(Item item);
+    Bid findBidMaxPrice(long auctionId);
+    String getAuctionBidderName(long auctionId);
 }

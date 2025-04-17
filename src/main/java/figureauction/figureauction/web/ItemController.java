@@ -1,5 +1,6 @@
 package figureauction.figureauction.web;
 
+import figureauction.figureauction.domain.Auction;
 import figureauction.figureauction.domain.Item;
 import figureauction.figureauction.service.AuctionService;
 import figureauction.figureauction.service.ItemService;
@@ -23,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -49,9 +51,12 @@ public class ItemController {
                              HttpSession session,
                              Model model) {
         SessionUtil.setLoginAttributes(model, session);
-        model.addAttribute("item", itemService.findOne(itemId));
-        model.addAttribute("auction", auctionService.findOne(itemId));
-//        model.addAttribute("bid", auctionService.findBid(itemId));
+        Item item = itemService.findOne(itemId);
+        Auction auction = auctionService.findOne(item.getItemId());
+        String bidder = auctionService.getAuctionBidderName(auction.getAuctionId());
+        model.addAttribute("bidder", Objects.requireNonNullElse(bidder, "입찰자가 없습니다."));
+        model.addAttribute("item", item);
+        model.addAttribute("auction", auction);
 
         return "item/item";
     }

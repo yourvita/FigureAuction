@@ -36,6 +36,11 @@
                th:value="${item.itemName}" readonly>
     </div>
     <div>
+        <label for="bidderName">최고 입찰자</label>
+        <input type="text" id="bidderName" name="bidderName" class="form-control"
+               th:value="${bidder}" readonly>
+    </div>
+    <div>
         <label for="price">입찰가</label>
         <input type="text" id="price" name="price" class="form-control"
                value="10000"
