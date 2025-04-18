@@ -42,13 +42,9 @@ public class AuctionServiceV1 implements AuctionService {
         System.out.println("bid.getAuctionId() = " + bid.getAuctionId()); // 11
         Auction auction = repository.findOne((long) bid.getAuctionId());
         int itemId = repository.findItemIdByAuctionId(bid.getAuctionId()); // 13
-        // auctionId로 옥션테이블에서 itemId를 찾는다 -> itemId로 item테이블에서 itemName을 찾는다
-//        int auctionId = auction.getAuctionId();
-//        int itemIdByAuctionId = repository.findItemIdByAuctionId(auctionId);
         String itemName = itemService.findOne(itemId).getItemName();
         log.warn("들어왔니");
         String message = "경매 :" + itemName + "에 상회입찰이 발생했습니다";
-        // 저장되어있는 bid가 없으니까 null
         Bid currentMaxBid = repository.findBidMaxPrice((long) bid.getAuctionId());
         log.warn(currentMaxBid.toString());
         log.warn("11111currentMaxBid.getBidderId():{}", currentMaxBid.getBidderId());

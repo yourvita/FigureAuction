@@ -22,7 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/members")
 @RequiredArgsConstructor
 public class MemberController {
-    private final MemberServiceV1 service;
+    private final MemberService service;
 
     @GetMapping
     public String loginForm() {

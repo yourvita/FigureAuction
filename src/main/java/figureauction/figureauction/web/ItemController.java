@@ -34,7 +34,7 @@ import java.util.UUID;
 @RequestMapping("/item")
 @RequiredArgsConstructor
 public class ItemController {
-    private final ItemServiceV1 itemService;
+    private final ItemService itemService;
     private final AuctionService auctionService;
     private final FileUploadUtil fileUploadUtil;
 
