@@ -18,4 +18,5 @@ public interface AuctionService {
     void createItemAndAuction(Item item);
     Bid findBidMaxPrice(long auctionId);
     String getAuctionBidderName(long auctionId);
+    void reRegister(Long auctionId);
 }

@@ -15,4 +15,5 @@ public interface AuctionMapper {
     Auction findOne(Long auctionId);
     Bid findBid(Long auctionId);
     Bid findBidMaxPrice(Long auctionId);
+    void reRegister(Long auctionId);
 }

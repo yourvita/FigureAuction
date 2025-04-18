@@ -96,4 +96,9 @@ public class AuctionServiceV1 implements AuctionService {
         }
         return null;
     }
+
+    @Override
+    public void reRegister(Long auctionId) {
+        repository.reRegister(auctionId);
+    }
 }

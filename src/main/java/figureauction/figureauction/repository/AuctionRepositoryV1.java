@@ -47,4 +47,9 @@ public class AuctionRepositoryV1 implements AuctionRepository {
     public Bid findBidMaxPrice(Long auctionId) {
         return mapper.findBidMaxPrice(auctionId);
     }
+
+    @Override
+    public void reRegister(Long auctionId) {
+        mapper.reRegister(auctionId);
+    }
 }

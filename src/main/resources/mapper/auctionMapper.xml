@@ -36,4 +36,8 @@
     <update id="updatePrice" parameterType="auction">
         update auction set current_price=#{currentPrice} where item_id=#{itemId}
     </update>
+
+    <update id="reRegister">
+        update auction set start_time=now(), end_time = DATE_ADD(NOW(), INTERVAL 1 DAY), item_status='progress' where item_id=#{itemId}
+    </update>
 </mapper>

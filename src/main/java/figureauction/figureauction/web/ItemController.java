@@ -116,6 +116,13 @@ public class ItemController {
         return "redirect:/item/" + itemId;
     }
 
+    @PostMapping("/{itemId}/re-register")
+    public String reRegister(@PathVariable long itemId, HttpSession session, Model model) {
+        auctionService.reRegister(itemId);
+
+        return "redirect:/item/" + itemId;
+    }
+
     @PostMapping("/{itemId}/delete")
     public String delete(@PathVariable long itemId) {
         itemService.deleteItem(itemId);
