@@ -5,7 +5,6 @@ import figureauction.figureauction.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-@Repository
 @RequiredArgsConstructor
 public class MemberRepositoryV1 implements MemberRepository {
 

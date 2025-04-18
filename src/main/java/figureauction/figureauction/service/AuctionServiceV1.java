@@ -5,11 +5,12 @@ import figureauction.figureauction.domain.Bid;
 import figureauction.figureauction.domain.Item;
 import figureauction.figureauction.repository.AuctionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 public class AuctionServiceV1 implements AuctionService {
     private final AuctionRepository repository;
@@ -77,7 +78,7 @@ public class AuctionServiceV1 implements AuctionService {
         auction.setStartPrice(savedItem.getPrice());
         auction.setCurrentPrice(savedItem.getPrice());
         auction.setStartTime(savedItem.getRegDate());
-        auction.setEndTime(savedItem.getRegDate().plusDays(1));
+        auction.setEndTime(savedItem.getRegDate().plusMinutes(5));
         saveAuction(auction);
 
     }

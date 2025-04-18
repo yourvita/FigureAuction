@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 
 import java.util.List;
 
-@Service
 @RequiredArgsConstructor
 public class AdminService {
     private final AdminRepository repository;
