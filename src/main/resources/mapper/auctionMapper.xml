@@ -7,19 +7,10 @@
         select * from auction
     </select>
 
-    <insert id="saveAuction" parameterType="auction">
-        insert into auction(item_Id, start_price, current_price, start_time, end_time)
-        values (#{itemId}, #{startPrice}, #{startPrice}, #{startTime}, #{endTime})
-    </insert>
-
-    <insert id="saveBid" parameterType="bid">
-        insert into bid(auction_id, bidder_id, bid_price)
-        VALUES(#{auctionId}, #{bidderId}, #{bidPrice})
-    </insert>
-
     <select id="findOne" resultType="auction">
         select * from auction where item_id=#{itemId}
     </select>
+
 
     <select id="findBidMaxPrice" resultType="bid">
         SELECT *
@@ -29,12 +20,45 @@
         LIMIT 1;
     </select>
 
+    <select id="findCurrentPrice" resultType="int">
+        select current_price from auction where item_id=#{itemId}
+    </select>
+
     <select id="findBid" resultType="bid">
         select * from bid where auction_id=#{auctionId}
     </select>
 
+    <select id="findUnreadByUserId" resultType="notification">
+        select * from notification where user_id=#{userId}
+    </select>
+
+    <select id="findItemIdByAuctionId" resultType="int">
+        select item_id from auction where auction_id=#{auctionId}
+    </select>
+
+    <insert id="saveAuction" parameterType="auction">
+        insert into auction(item_Id, start_price, current_price, start_time, end_time)
+        values (#{itemId}, #{startPrice}, #{startPrice}, #{startTime}, #{endTime})
+    </insert>
+
+
+    <insert id="saveBid" parameterType="bid">
+        insert into bid(auction_id, bidder_id, bid_price)
+        VALUES(#{auctionId}, #{bidderId}, #{bidPrice})
+    </insert>
+
+    <insert id="saveNotification" parameterType="notification">
+        insert into notification(user_id, message, is_read)
+        VALUES (#{userId}, #{message}, #{isRead})
+    </insert>
+
+
     <update id="updatePrice" parameterType="auction">
         update auction set current_price=#{currentPrice} where item_id=#{itemId}
+    </update>
+
+    <update id="updateBid" parameterType="bid">
+        update bid set bidder_id=#{bidderId}, bid_price=#{bidPrice} where auction_id=#{auctionId}
     </update>
 
     <update id="reRegister">

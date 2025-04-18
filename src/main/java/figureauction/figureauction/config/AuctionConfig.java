@@ -6,9 +6,11 @@ import figureauction.figureauction.mapper.ItemMapper;
 import figureauction.figureauction.mapper.MemberMapper;
 import figureauction.figureauction.repository.*;
 import figureauction.figureauction.service.*;
+import figureauction.figureauction.web.util.NotificationSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 @Configuration
 @RequiredArgsConstructor
@@ -29,8 +31,8 @@ public class AuctionConfig {
     }
 
     @Bean
-    public AuctionService auctionService() {
-        return new AuctionServiceV1(auctionRepository(), itemService(), memberService());
+    public AuctionService auctionService(SimpMessagingTemplate brokerMessagingTemplate) {
+        return new AuctionServiceV1(auctionRepository(), itemService(), memberService(), new NotificationSender(brokerMessagingTemplate));
     }
 
     @Bean
@@ -57,4 +59,6 @@ public class AuctionConfig {
     public AdminRepository adminRepository() {
         return new AdminRepository(adminMapper);
     }
+
+
 }

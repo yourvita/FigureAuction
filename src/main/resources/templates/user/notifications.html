@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상회 입찰 알림</title>
+</head>
+<body>
+<div th:fragment="notify">
+    <!--<h4>🔔 실시간 알림</h4>
+    <ul id="notification-list"></ul>-->
+    <script src="/webjars/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.4/stomp.min.js"></script>
+    <script th:inline="javascript">
+        const socket = new SockJS("/ws-notify");
+        const stompClient = Stomp.over(socket);
+
+        const userId = [[${session.userId}]]; // 로그인된 사용자 ID
+        stompClient.connect({}, function() {
+            console.log("stomp 연결 성공")
+            stompClient.subscribe("/topic/notify/" + userId, function(notification) {
+                // 알림 표시
+                console.log("콘솔: "+notification.body)
+                alert("알림" + notification.body);
+            });
+        }, function(error) {
+            console.log("stomp 연결실패")
+        });
+    </script>
+</div>
+</body>
+</html>

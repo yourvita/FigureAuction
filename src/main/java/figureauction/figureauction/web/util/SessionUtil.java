@@ -25,4 +25,12 @@ public class SessionUtil {
             session.invalidate();
         }
     }
+
+    public static Long getLoginUserId(HttpSession session) {
+        Object loginUser = session.getAttribute("loginUser");
+        if(loginUser instanceof Member) {
+            return ((Member)loginUser).getUserId();
+        }
+        throw new IllegalStateException("로그인된 사용자가 없습니다");
+    }
 }

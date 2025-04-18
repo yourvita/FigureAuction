@@ -2,6 +2,7 @@ package figureauction.figureauction.repository;
 
 import figureauction.figureauction.domain.Auction;
 import figureauction.figureauction.domain.Bid;
+import figureauction.figureauction.domain.Notification;
 import figureauction.figureauction.mapper.AuctionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -19,8 +20,23 @@ public class AuctionRepositoryV1 implements AuctionRepository {
     }
 
     @Override
+    public int findItemIdByAuctionId(long auctionId) {
+        return mapper.findItemIdByAuctionId(auctionId);
+    }
+
+    @Override
+    public int findCurrentPrice(long auctionId) {
+        return mapper.findCurrentPrice(auctionId);
+    }
+
+    @Override
     public void saveAuction(Auction auction) {
         mapper.saveAuction(auction);
+    }
+
+    @Override
+    public void updateBid(Bid bid) {
+        mapper.updateBid(bid);
     }
 
     @Override
@@ -51,5 +67,15 @@ public class AuctionRepositoryV1 implements AuctionRepository {
     @Override
     public void reRegister(Long auctionId) {
         mapper.reRegister(auctionId);
+    }
+
+    @Override
+    public void saveNotification(Notification notification) {
+        mapper.saveNotification(notification);
+    }
+
+    @Override
+    public List<Notification> findUnreadByUserId(Long userId) {
+        return mapper.findUnreadByUserId(userId);
     }
 }

@@ -3,19 +3,24 @@ package figureauction.figureauction.service;
 import figureauction.figureauction.domain.Auction;
 import figureauction.figureauction.domain.Bid;
 import figureauction.figureauction.domain.Item;
+import figureauction.figureauction.domain.Notification;
 import figureauction.figureauction.repository.AuctionRepository;
+import figureauction.figureauction.web.util.NotificationSender;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 //@Service
+@Slf4j
 @RequiredArgsConstructor
 public class AuctionServiceV1 implements AuctionService {
     private final AuctionRepository repository;
     private final ItemService itemService;
     private final MemberService memberService;
+    private final NotificationSender sender;
 
     @Override
     public List<Auction> findAll() {
@@ -28,8 +33,40 @@ public class AuctionServiceV1 implements AuctionService {
     }
 
     @Override
+    public int findCurrentPrice(long auctionId) {
+        return repository.findCurrentPrice(auctionId);
+    }
+
+    @Override
     public void saveBid(Bid bid) {
+        System.out.println("bid.getAuctionId() = " + bid.getAuctionId()); // 11
+        Auction auction = repository.findOne((long) bid.getAuctionId());
+        int itemId = repository.findItemIdByAuctionId(bid.getAuctionId()); // 13
+        // auctionId로 옥션테이블에서 itemId를 찾는다 -> itemId로 item테이블에서 itemName을 찾는다
+//        int auctionId = auction.getAuctionId();
+//        int itemIdByAuctionId = repository.findItemIdByAuctionId(auctionId);
+        String itemName = itemService.findOne(itemId).getItemName();
+        log.warn("들어왔니");
+        String message = "경매 :" + itemName + "에 상회입찰이 발생했습니다";
+        // 저장되어있는 bid가 없으니까 null
+        Bid currentMaxBid = repository.findBidMaxPrice((long) bid.getAuctionId());
+        log.warn(currentMaxBid.toString());
+        log.warn("11111currentMaxBid.getBidderId():{}", currentMaxBid.getBidderId());
+        log.warn("11111bid.getBidderId():{}", bid.getBidderId());
+        if(currentMaxBid != null && currentMaxBid.getBidderId() != bid.getBidderId()) {
+            log.warn("currentMaxBid.getBidderId():{}", currentMaxBid.getBidderId());
+            log.warn("bid.getBidderId():{}", bid.getBidderId());
+            Notification notification = new Notification();
+            notification.setUserId(currentMaxBid.getBidderId());
+            notification.setMessage(message);
+            repository.saveNotification(notification);
+            sender.sendBidOvertakenNotification(currentMaxBid.getBidderId(), message);
+            log.info("message: {}",message);
+        }
+
         repository.saveBid(bid);
+        auction.setCurrentPrice(bid.getBidPrice());
+        repository.updatePrice(auction);
     }
 
     @Override
@@ -67,7 +104,24 @@ public class AuctionServiceV1 implements AuctionService {
         // 입찰 정보 업데이트 및 저장
         itemService.bidUpdate(itemId, currentPrice);
         updatePrice(auction);
-        saveBid(bid);
+        if(repository.findBid((long) auction.getAuctionId()) == null) {
+            repository.saveBid(bid);
+        } else {
+            Bid currentMaxBid = repository.findBidMaxPrice((long) bid.getAuctionId());
+            if(currentMaxBid != null && currentMaxBid.getBidderId() != auction.getAuctionId()) {
+                // 상회입찰이 발생해 그전 입찰자에게 알림
+                String itemName = itemService.findOne(itemId).getItemName();
+                String message = "경매 : " + itemName + "에 상회입찰이 발생했습니다";
+                Notification notification = new Notification();
+                notification.setUserId(currentMaxBid.getBidderId());
+                notification.setMessage(message);
+                repository.saveNotification(notification);
+                sender.sendBidOvertakenNotification(currentMaxBid.getBidderId(), message);
+
+                // 상회입찰한 금액을 bid에 업데이트
+                repository.updateBid(bid);
+            }
+        }
     }
 
     @Override
@@ -78,7 +132,7 @@ public class AuctionServiceV1 implements AuctionService {
         auction.setStartPrice(savedItem.getPrice());
         auction.setCurrentPrice(savedItem.getPrice());
         auction.setStartTime(savedItem.getRegDate());
-        auction.setEndTime(savedItem.getRegDate().plusMinutes(5));
+        auction.setEndTime(savedItem.getRegDate().plusMinutes(30));
         saveAuction(auction);
 
     }
@@ -100,5 +154,10 @@ public class AuctionServiceV1 implements AuctionService {
     @Override
     public void reRegister(Long auctionId) {
         repository.reRegister(auctionId);
+    }
+
+    @Override
+    public List<Notification> findUnreadByUserId(Long userId) {
+        return repository.findUnreadByUserId(userId);
     }
 }
