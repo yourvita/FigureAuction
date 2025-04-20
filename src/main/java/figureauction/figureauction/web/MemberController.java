@@ -69,6 +69,16 @@ public class MemberController {
 
         model.addAttribute("member", service.findById(userId));
         log.info("등급: {}", service.findById(userId).getUserGrade());
+        return "members/member";
+    }
+
+    @GetMapping("/{userId}/editForm")
+    public String editForm(@PathVariable long userId, Model model, HttpSession session) {
+        SessionUtil.setLoginAttributes(model, session);
+
+        model.addAttribute("member", service.findById(userId));
+        log.info("등급: {}", service.findById(userId).getUserGrade());
+
         return "members/editMember";
     }
 

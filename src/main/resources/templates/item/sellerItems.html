@@ -2,95 +2,64 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="utf-8">
-  <link th:href="@{/css/bootstrap.min.css}"
-        href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/bootstrap.min.css"
+        th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/css/items.css}"
+        href="/css/items.css" rel="stylesheet">
   <style>
-    img {
-      width: 50px;
-      height: 50px;
+    .image-center-custom{
+      text-align: center;
+    }
+
+    .item-custom {
+      width: 15rem;
+      height: 15rem;
     }
   </style>
   <title>판매자 상품 리스트</title>
 </head>
 <body>
-<div class="container" style="max-width: 600px">
-  <div class="py-5 text-center">
-    <h2>상품 목록</h2>
-  </div>
-  <div class="row">
-    <div class="col-4">
-      <button class="btn btn-primary float-end"
-              onclick="location.href='addForm.html'"
-              th:onclick="|location.href='@{/item/add}'|"
-              type="button"
-              th:if="${isLoggedIn}">
-        상품 등록
-      </button>
-    </div>
-    <div class="col-4">
-      <button class="btn btn-primary float-end"
-              onclick="location.href='loginForm.html'"
-              th:onclick="|location.href='@{/members}'|"
-              type="button"
-              th:unless="${isLoggedIn}">
-        로그인
-      </button>
-      <button class="btn btn-primary float-end"
-              onclick="location.href='joinForm.html'"
-              th:onclick="|location.href='@{/members/joinMember}'|"
-              type="button"
-              th:unless="${isLoggedIn}">
-        회원가입
-      </button>
-    </div>
-    <div class="col-4">
-      <button class="btn btn-primary float-end"
-              onclick="location.href='admin.html'"
-              th:onclick="|location.href='@{/admin}'|"
-              type="button"
-              th:if="${session.userEmail}=='admin@admin.com'">
-        관리자 페이지
-      </button>
-      <button class="btn btn-primary float-end"
-              onclick="location.href='joinForm.html'"
-              th:onclick="|location.href='@{/members/{userId}/edit(userId=${session.userId})}'|"
-              type="button"
-              th:if="${isLoggedIn}">
-        정보수정
-      </button>
-      <div th:if="${isLoggedIn}">
-        <form th:action="@{/members/logout}" method="post">
-          <button type="submit" class="btn btn-dark btn-lg">로그아웃</button>
-        </form>
+<div th:replace="~{user/component :: navbar}"></div>
+<!-- Section-->
+<section class="py-3">
+  <div class="container px-4 px-lg-5 mt-5">
+
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+      <div class="col mb-5" th:each="item : ${itemList}">
+        <div class="card h-100">
+          <!-- 상품이미지, 상품명, 가격, 수량, 설명,  -->
+          <!-- 진행이끝난상품은 자동삭제, 관리자 삭제 -->
+          <!-- Product image-->
+          <div class="image-center-custom"><img class="card-img-top item-custom" th:src="@{/item/itemimage/{filename}(filename=${item.imageDetail != null ? item.imageDetail : 'default.png'})}" alt="상품 이미지" /></div>
+          <!-- Product details-->
+          <div class="card-body p-4">
+            <div class="text-center">
+              <!-- 상품명-->
+              <h1 class="fw-bolder" >
+                <a href="item.html"
+                   th:href="@{/item/{itemId}(itemId=${item.itemId})}"
+                   th:text="${item.itemName}"
+                   style="text-decoration: none;">상품명</a>
+              </h1>
+              <!-- 가격-->
+              <h5><a th:href="@{/item/{sellerId}/sellerItems(sellerId=${item.sellerId})}" th:text="${item.sellerId}" style="text-decoration: none;">판매자</a></h5>
+              <h5 th:text="${item.price} + '원'">가격격</h5>
+              <h5 th:text="${item.quantity} + '개'">수량</h5>
+              <h5 th:text="${item.descriptionDetail}">설명</h5>
+              <!--                            <h5 th:text="${itemInfo.auction.itemStatus}">진행상황</h5>-->
+              <form th:if="${session.userEmail} == 'admin@admin.com'"
+                    th:action="@{/item/{itemId}/delete(itemId=${item.itemId})}" method="post">
+                <button type="submit" class="btn btn-outline-dark mt-auto">
+                  삭제하기
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div>
-    <table class="table">
-      <thead>
-      <tr>
-        <th>닉네임</th>
-        <th>상품명</th>
-        <th>가격</th>
-        <th>수량</th>
-        <th>설명</th>
-        <th>이미지</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="item : ${itemList}">
-        <td><a href="item.html" th:href="@{/item/{sellerId}(sellerId=${item.sellerId})}" th:text="${item.sellerId}">닉네임</a></td>
-        <td><a href="item.html" th:href="@{/item/{itemId}(itemId=${item.itemId})}" th:text="${item.itemName}">상품명</a></td>
-        <td th:text="${item.price}">10000</td>
-        <td th:text="${item.quantity}">10</td>
-        <td th:text="${item.descriptionDetail}">잘 관리되었습니다.</td>
-        <td><img th:src="@{/item/itemimage/{filename}(filename=${item.imageDetail != null ? item.imageDetail : 'default.png'})}" alt="상품 이미지"></td>
-        <td th:if="${session.userEmail} == ${null} or ${item.userEmail}!=${session.userEmail}"></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+</section>
 <div th:replace="~{user/notifications :: notify}"></div>
 </body>
 </html>

@@ -1,7 +1,3 @@
-drop table members;
-drop table item;
-drop table auction;
-drop table bid;
 
 -- 회원
 CREATE TABLE members(user_id int auto_increment primary key,

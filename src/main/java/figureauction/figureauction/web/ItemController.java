@@ -82,7 +82,9 @@ public class ItemController {
 
 
     @GetMapping("/add")
-    public String addForm(HttpSession session) {
+    public String addForm(Model model, HttpSession session) {
+        SessionUtil.setLoginAttributes(model, session);
+
         session.setAttribute("userName", session.getAttribute("userName"));
         return "item/addForm";
     }

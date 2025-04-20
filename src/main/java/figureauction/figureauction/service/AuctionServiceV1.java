@@ -39,11 +39,10 @@ public class AuctionServiceV1 implements AuctionService {
 
     @Override
     public void saveBid(Bid bid) {
-        System.out.println("bid.getAuctionId() = " + bid.getAuctionId()); // 11
+        System.out.println("bid.getAuctionId() = " + bid.getAuctionId());
         Auction auction = repository.findOne((long) bid.getAuctionId());
-        int itemId = repository.findItemIdByAuctionId(bid.getAuctionId()); // 13
+        int itemId = repository.findItemIdByAuctionId(bid.getAuctionId());
         String itemName = itemService.findOne(itemId).getItemName();
-        log.warn("들어왔니");
         String message = "경매 :" + itemName + "에 상회입찰이 발생했습니다";
         Bid currentMaxBid = repository.findBidMaxPrice((long) bid.getAuctionId());
         log.warn(currentMaxBid.toString());
@@ -128,7 +127,8 @@ public class AuctionServiceV1 implements AuctionService {
         auction.setStartPrice(savedItem.getPrice());
         auction.setCurrentPrice(savedItem.getPrice());
         auction.setStartTime(savedItem.getRegDate());
-        auction.setEndTime(savedItem.getRegDate().plusMinutes(30));
+//        시간조정 endtime조정
+        auction.setEndTime(savedItem.getRegDate().plusMinutes(60));
         saveAuction(auction);
 
     }

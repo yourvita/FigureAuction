@@ -4,93 +4,90 @@
     <meta charset="utf-8">
     <link href="../css/bootstrap.min.css"
           th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <style>
-        .container {
-            max-width: 560px;
-        }
-    </style>
+    <link th:href="@{/css/items.css}"
+          href="/css/items.css" rel="stylesheet">
+
 </head>
 <body>
+<div th:replace="~{user/component :: navbar}"></div>
 <div class="container">
-    <div th:if="${isLoggedIn}">
-        <form th:action="@{/members/logout}" method="post">
-            <button type="submit" class="w-100 btn btn-dark btn-lg">로그아웃</button>
-        </form>
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Edit</h3></div>
+                                <div class="card-body">
+                                    <form th:action="@{/members/{userId}/edit(userId=${member.userId})}" method="post">
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" id="inputUserId" type="hidden" name="userId" th:value="${member.userId}" readonly placeholder="name@example.com" />
+                                            <label for="inputUserId"></label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" id="inputUserEmail" type="email" name="userEmail" th:value="${member.userEmail}" readonly placeholder="Password" />
+                                            <label for="inputUserEmail">Email</label>
+                                        </div>
+                                        <!--<div class="form-floating mb-3">
+                                            <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
+                                            <label for="inputPassword">Password</label>
+                                        </div>-->
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" id="inputUserName" type="text" name="userName" th:value="${member.userName}" placeholder="Password" />
+                                            <label for="inputUserName">Password</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" id="inputUserPhone" type="tel" name="userPhone" th:value="${member.userPhone}" placeholder="phone" />
+                                            <label for="inputUserPhone">phone</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" id="inputUserAddr" type="text" name="userAddr" th:value="${member.userAddr}" placeholder="Addr" />
+                                            <label for="inputUserAddr">Addr</label>
+                                        </div>
+                                        <div th:if="${session.userEmail}=='admin@admin.com'">
+                                            <div class="form-floating mb-3">
+                                                <select class="form-control form-select" name="userGrade" id="userGrade"
+                                                        th:field="${member.userGrade}" th:value="${member.userGrade}">
+                                                    <option th:value="'A'" th:text="A"></option>
+                                                    <option th:value="'B'" th:text="B"></option>
+                                                    <option th:value="'C'" th:text="C"></option>
+                                                </select>
+                                                <label for="userGrade">회원 등급</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <select class="form-control form-select" name="userStatus" id="userStatus"
+                                                        th:field="${member.userStatus}" th:value="${member.userStatus}">
+                                                    <option th:value="true" th:text="정상"></option>
+                                                    <option th:value="false" th:text="정지"></option>
+                                                </select>
+                                                <label for="userStatus">정지 여부</label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                                            <button class="btn btn-primary" type="submit">Edit</button>
+                                            <button class="btn btn-secondary"
+                                                    style="margin-left: 0.5rem;"
+                                                    onclick="location.href='items.html'"
+                                                    th:if="${session.userEmail}!='admin@admin.com'"
+                                                    th:onclick="|location.href='@{/}'|" type="button">목록으로</button>
+                                            <button class="btn btn-secondary"
+                                                    style="margin-left: 0.5rem;"
+                                                    onclick="location.href='items.html'"
+                                                    th:if="${session.userEmail}=='admin@admin.com'"
+                                                    th:onclick="|location.href='@{/admin}'|" type="button">회원목록</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
     </div>
-    <div class="py-5 text-center">
-        <h2>회원 정보 수정</h2>
-    </div>
-    <form th:action="@{/members/{userId}/edit(userId=${member.userId})}" method="post">
-        <div>
-            <label for="userId">유저Id</label>
-            <input type="hidden" id="userId" name="userId" class="form-control"
-                   value="1" th:value="${member.userId}" readonly>
-        </div>
-        <div>
-            <label for="userEmail">이메일</label>
-            <input type="email" id="userEmail" name="userEmail" class="form-control"
-                   value="이메일"
-                   th:value="${member.userEmail}" readonly>
-        </div>
-        <div>
-            <label for="userName">이름</label>
-            <input type="text" id="userName" name="userName" class="form-control"
-                   value="이름"
-                   th:value="${member.userName}">
-        </div>
-        <div>
-            <label for="userPhone">핸드폰번호</label>
-            <input type="tel" id="userPhone" name="userPhone" class="form-control"
-                   value="10"
-                   th:value="${member.userPhone}">
-        </div>
-        <div>
-            <label for="userAddr">주소</label>
-            <input type="text" id="userAddr" name="userAddr" class="form-control"
-                   value=""
-                   th:value="${member.userAddr}">
-        </div>
-        <div th:if="${session.userEmail}=='admin@admin.com'">
-            <p>디버그 [[${member.userGrade}]]</p>
-            <label for="userGrade">회원 등급</label>
-            <select class="form-select form-select-sm" name="userGrade" id="userGrade"
-                    th:field="${member.userGrade}" th:value="${member.userGrade}">
-                <option th:value="'A'" th:text="A"></option>
-                <option th:value="'B'" th:text="B"></option>
-                <option th:value="'C'" th:text="C"></option>
-            </select>
-            <label for="userStatus">정지 여부</label>
-            <select class="form-select form-select-sm" name="userStatus" id="userStatus"
-                    th:field="${member.userStatus}" th:value="${member.userStatus}">
-                <option th:value="true" th:text="정상"></option>
-                <option th:value="false" th:text="정지"></option>
-            </select>
-
-        </div>
-        <hr class="my-4">
-        <div class="row">
-            <div class="col">
-                <button class="w-100 btn btn-primary btn-lg"
-                        type="submit">정보 수정</button>
-                <!--<button class="w-100 btn btn-primary btn-lg"
-                        onclick="location.href='editForm.html'"
-                        th:onclick="|location.href='@{/members/{userId}/edit(userId=${member.userId})}'|"
-                        type="button">상품 수정</button>-->
-            </div>
-            <div class="col">
-                <button class="w-100 btn btn-secondary btn-lg"
-                        onclick="location.href='items.html'"
-                        th:if="${session.userEmail}!='admin@admin.com'"
-                        th:onclick="|location.href='@{/}'|" type="button">목록으로</button>
-                <button class="w-100 btn btn-secondary btn-lg"
-                        onclick="location.href='items.html'"
-                        th:if="${session.userEmail}=='admin@admin.com'"
-                        th:onclick="|location.href='@{/admin}'|" type="button">회원목록</button>
-            </div>
-        </div>
-    </form>
-
 </div> <!-- /container -->
+<script th:src="@{/js/component.js}"></script>
 <div th:replace="~{user/notifications :: notify}"></div>
 </body>
 </html>

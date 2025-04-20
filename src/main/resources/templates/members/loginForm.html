@@ -4,42 +4,46 @@
     <meta charset="UTF-8">
     <link href="../css/bootstrap.min.css"
           th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <style>
-        .container {
-            max-width: 560px;
-        }
-    </style>
+    <link th:href="@{/css/items.css}"
+          href="/css/items.css" rel="stylesheet">
+
     <title>로그인 페이지</title>
 </head>
 <body>
-<div class="container">
-    <div class="py-5 text-center">
-        <h2>로그인 폼</h2>
+<div th:replace="~{user/component :: navbar}"></div>
+<div id="layoutAuthentication">
+    <div id="layoutAuthentication_content">
+        <main>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="card shadow-lg border-0 rounded-lg mt-5">
+                            <div class="card-header"><h3 class="text-center font-weight-light my-4">로그인</h3></div>
+                            <div class="card-body">
+                                <form action="loginForm.html" th:action="@{/members}" method="post">
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" id="inputEmail" name="userEmail" type="email" placeholder="name@example.com" />
+                                        <label for="inputEmail">Email address</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" id="inputPassword" name="userPw" type="password" placeholder="Password" />
+                                        <label for="inputPassword">Password</label>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                                        <button class="btn btn-primary" type="submit">Login</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-footer text-center py-3">
+                                <div class="small"><a href="register.html" th:href="@{/members/joinMember}">Sign up!</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
-    <h4 class="mb-3">로그인</h4>
-    <form action="loginForm.html" th:action="@{/members}" method="post">
-        <div>
-            <label for="userEmail">이메일</label>
-            <input type="email" id="userEmail" name="userEmail" class="form-control" placeholder="이메일을 입력하세요">
-        </div>
-        <div>
-            <label for="userPw">비밀번호</label>
-            <input type="password" id="userPw" name="userPw" class="form-control" placeholder="비밀번호를 입력하세요">
-        </div>
-        <hr class="my-4">
-        <div class="row">
-            <div class="col">
-                <button class="w-100 btn btn-primary btn-lg" type="submit">로그인</button>
-            </div>
-            <div class="col">
-                <button class="w-100 btn btn-secondary btn-lg"
-                        onclick="location.href='items.html'"
-                        th:onclick="|location.href='@{/item}'|"
-                        type="button">취소</button>
-            </div>
-        </div>
-    </form>
-</div> <!-- /container -->
+</div>
 <div th:replace="~{user/notifications :: notify}"></div>
 </body>
 </html>
