@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
-            href="../css/bootstrap.min.css" rel="stylesheet">
+          href="../css/bootstrap.min.css" rel="stylesheet">
     <style>
         img {
             width: 50px;
@@ -13,14 +13,14 @@
     <title>상품 등록 페이지</title>
 </head>
 <body>
-
-<div class="container" style="max-width: 600px">
+<div th:replace="~{user/header :: header}"></div>
+<div class="container">
     <div class="py-5 text-center">
-        <h2>상품 목록</h2>
+        <h2 class="h2-custom">상품 목록</h2>
     </div>
     <div class="row">
         <div class="col-4">
-            <button class="btn btn-primary float-end"
+            <button class="btn btn-primary"
                     onclick="location.href='addForm.html'"
                     th:onclick="|location.href='@{/item/add}'|"
                     type="button"
@@ -28,41 +28,44 @@
                 상품 등록
             </button>
         </div>
-        <div class="col-4">
-            <button class="btn btn-primary float-end"
-                    onclick="location.href='loginForm.html'"
-                    th:onclick="|location.href='@{/members}'|"
-                    type="button"
-                    th:unless="${isLoggedIn}">
-                로그인
-            </button>
-            <button class="btn btn-primary float-end"
-                    onclick="location.href='joinForm.html'"
-                    th:onclick="|location.href='@{/members/joinMember}'|"
-                    type="button"
-                    th:unless="${isLoggedIn}">
-                회원가입
-            </button>
-        </div>
-        <div class="col-4">
-            <button class="btn btn-primary float-end"
-                    onclick="location.href='admin.html'"
-                    th:onclick="|location.href='@{/admin}'|"
-                    type="button"
-                    th:if="${session.userEmail}=='admin@admin.com'">
-                관리자 페이지
-            </button>
-            <button class="btn btn-primary float-end"
-                    onclick="location.href='joinForm.html'"
-                    th:onclick="|location.href='@{/members/{userId}/edit(userId=${session.userId})}'|"
-                    type="button"
-                    th:if="${isLoggedIn}">
-                정보수정
-            </button>
-            <div th:if="${isLoggedIn}">
-                <form th:action="@{/members/logout}" method="post">
-                    <button type="submit" class="btn btn-dark btn-lg">로그아웃</button>
-                </form>
+        <div class="col-8">
+            <div class="notLogin">
+                <button class="btn btn-primary float-end"
+                        onclick="location.href='loginForm.html'"
+                        th:onclick="|location.href='@{/members}'|"
+                        type="button"
+                        th:unless="${isLoggedIn}">
+                    로그인
+                </button>
+                <button class="btn btn-primary float-end"
+                        onclick="location.href='joinForm.html'"
+                        th:onclick="|location.href='@{/members/joinMember}'|"
+                        type="button"
+                        th:unless="${isLoggedIn}">
+                    회원가입
+                </button>
+
+                <div class="logout-custom" th:if="${isLoggedIn}">
+                    <form class="d-flex" th:action="@{/members/logout}" method="post">
+                        <button class="btn btn-outline-dark" type="submit">
+                            <span style="color: white;">로그아웃</span>
+                        </button>
+                    </form>
+                </div>
+                <button class="btn btn-outline-dark"
+                        onclick="location.href='admin.html'"
+                        th:onclick="|location.href='@{/admin}'|"
+                        type="button"
+                        th:if="${session.userEmail}=='admin@admin.com'">
+                    관리자 페이지
+                </button>
+                <button class="btn btn-primary float-end"
+                        onclick="location.href='joinForm.html'"
+                        th:onclick="|location.href='@{/members/{userId}/edit(userId=${session.userId})}'|"
+                        type="button"
+                        th:if="${isLoggedIn}">
+                    정보수정
+                </button>
             </div>
         </div>
     </div>
@@ -91,13 +94,14 @@
                 <td th:text="${itemInfo.item.descriptionDetail}">잘 관리되었습니다.</td>
                 <td><img th:src="@{/item/itemimage/{filename}(filename=${itemInfo.item.imageDetail != null ? itemInfo.item.imageDetail : 'default.png'})}" alt="상품 이미지"></td>
                 <td th:text="${itemInfo.auction.itemStatus}">status</td>
-<!--                <td th:if="${session.userEmail} == ${null} or ${itemInfo.item.userEmail}!=${session.userEmail}"></td>-->
+                <!--                <td th:if="${session.userEmail} == ${null} or ${itemInfo.item.userEmail}!=${session.userEmail}"></td>-->
                 <td th:if="${session.userEmail} == 'admin@admin.com'">
                     <form th:action="@{/item/{itemId}/delete(itemId=${itemInfo.item.itemId})}" method="post">
-                        <button type="submit" class="btn btn-primary"> <!--class=float-end 지웠음-->
+                        <button type="submit" class="btn btn-primary">
                             삭제하기
                         </button>
                     </form>
+                </td>
             </tr>
             </tbody>
         </table>

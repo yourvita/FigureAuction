@@ -1,0 +1,15 @@
+.notLogin {
+    position: absolute;
+    top: 8rem;
+    right: 5rem;
+}
+
+.logout-custom {
+    position: absolute;
+    right: 0;
+    top: -3rem;
+}
+
+.h2-custom {
+    margin-bottom: 50px;
+}
