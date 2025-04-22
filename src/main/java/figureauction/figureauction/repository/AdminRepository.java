@@ -11,10 +11,13 @@ import java.util.List;
 public class AdminRepository {
     private final AdminMapper mapper;
 
-    public List<Member> memberList() {
-        return mapper.memberList();
+    public List<Member> memberList(int page, int size) {
+        return mapper.memberList(page, size);
     }
 
+    public int countMemberList() {
+        return mapper.countMemberList();
+    }
     public void deleteMember(Long userId) {
         mapper.deleteMember(userId);
     }

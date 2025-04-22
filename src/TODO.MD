@@ -44,3 +44,8 @@
     + items 검색 기능
     + items, admin 페이징
 
+- 04/23
+    + admin 페이징
+    + item_status 'end' 이면 검색 되지 않게
+    + user_status '정지' 이면 입찰 할 수 없게
+

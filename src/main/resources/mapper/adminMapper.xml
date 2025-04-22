@@ -4,7 +4,13 @@
 <mapper namespace="figureauction.figureauction.mapper.AdminMapper">
 
     <select id="memberList" resultType="member">
-        select * from members;
+        select * from members
+        ORDER BY join_date desc
+        LIMIT #{limit} OFFSET #{offset};
+    </select>
+
+    <select id="countMemberList" resultType="int">
+        select count(*) from members
     </select>
 
     <delete id="deleteMember">

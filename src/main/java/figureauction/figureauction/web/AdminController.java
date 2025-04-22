@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Controller
@@ -21,20 +18,24 @@ public class AdminController {
     private final AdminService service;
 
     @GetMapping
-    public String admin(HttpSession session) {
+    public String admin(@RequestParam(defaultValue = "1") int page,
+                        @RequestParam(defaultValue = "4") int size,
+                        HttpSession session) {
         session.setAttribute("adminAccess", true);
         return "redirect:/admin/adminPage";
     }
 
     @GetMapping("/adminPage")
-    public String adminPage(Model model, HttpSession session) {
+    public String adminPage(@RequestParam(defaultValue = "1") int page,
+                            @RequestParam(defaultValue = "4") int size,
+                            Model model, HttpSession session) {
         Boolean allowed = (session != null) ? (Boolean) session.getAttribute("adminAccess") : null;
         if (allowed == null || !allowed) {
             log.warn("Admin access is denied");
             return "redirect:/";
         }
 
-        service.prepareAdmin(model, session);
+        service.prepareAdmin(model, session, page, size);
 
         return "admin/admin";
     }
