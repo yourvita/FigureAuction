@@ -1,11 +1,14 @@
 package figureauction.figureauction.web;
 
+import figureauction.figureauction.domain.Member;
 import figureauction.figureauction.service.AdminService;
 import figureauction.figureauction.web.util.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,11 @@ public class AdminController {
     public String admin(@RequestParam(defaultValue = "1") int page,
                         @RequestParam(defaultValue = "4") int size,
                         HttpSession session) {
+        Object userEmail = session.getAttribute("userEmail");
+        if(userEmail == null || !userEmail.equals("admin@admin.com")) {
+            log.info("access denied");
+            return "redirect:/";
+        }
         session.setAttribute("adminAccess", true);
         return "redirect:/admin/adminPage";
     }
@@ -29,14 +37,32 @@ public class AdminController {
     public String adminPage(@RequestParam(defaultValue = "1") int page,
                             @RequestParam(defaultValue = "4") int size,
                             Model model, HttpSession session) {
+        Boolean adminAccess = (Boolean) session.getAttribute("adminAccess");
+        log.info("adminAccess: {}", adminAccess);
+        if(adminAccess) {
+            service.prepareAdmin(model, session, page, size);
+
+            return "admin/admin";
+        }
+            log.warn("Admin access is denied");
+            return "redirect:/";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam(defaultValue = "1")int page,
+                         @RequestParam(defaultValue = "4")int size,
+                         String searchName, Model model, HttpSession session) {
         Boolean allowed = (session != null) ? (Boolean) session.getAttribute("adminAccess") : null;
         if (allowed == null || !allowed) {
-            log.warn("Admin access is denied");
+//            log.warn("Admin access is denied");
             return "redirect:/";
         }
 
-        service.prepareAdmin(model, session, page, size);
-
+        Page<Member> content = service.searchMemberList(searchName, page, size);
+        model.addAttribute("searchName", searchName);
+        model.addAttribute("content", content.getContent());
+        model.addAttribute("totalPages", content.getTotalPages());
+        model.addAttribute("currentPage", page);
         return "admin/admin";
     }
 
@@ -45,5 +71,14 @@ public class AdminController {
         service.deleteMember(userId);
 
         return "admin/admin";
+    }
+
+    private static String requiredAdminAccess(HttpSession session) {
+        Boolean allowed = (session != null) ? (Boolean) session.getAttribute("adminAccess") : null;
+        if (allowed == null || !allowed) {
+            log.warn("Admin access is denied");
+            return "redirect:/";
+        }
+        return null;
     }
 }
