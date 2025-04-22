@@ -37,9 +37,9 @@
     </select>
 
     <select id="findBySearchName" resultType="auction" >
-SELECT a.*
-FROM auction a JOIN item i ON a.item_id = i.item_id
-WHERE i.item_name like concat('%', #{searchName}, '%');
+    SELECT a.*
+    FROM auction a JOIN item i ON a.item_id = i.item_id
+    WHERE i.item_name like concat('%', #{searchName}, '%');
     </select>
 
     <insert id="saveAuction" parameterType="auction">

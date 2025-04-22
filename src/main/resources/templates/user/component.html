@@ -73,7 +73,31 @@
     </div>
   </div>
 </nav>
-
+<!-- 검색, 페이징-->
+<div th:fragment="searchPagination" class="d-flex justify-content-between">
+  <!-- 검색창 -->
+  <div class="w-50">
+    <form class="input-group mb-3 search-form" th:action="@{/item/search}">
+      <input type="text" id="inputItemName" class="form-control" name="searchName" placeholder="키워드를 입력하세요" aria-label="Recipient's username" aria-describedby="button-addon2">
+      <button class="btn btn-outline-secondary" type="submit" id="button-addon2">검색</button>
+    </form>
+  </div>
+  <!-- 페이징 -->
+  <nav>
+    <ul class="pagination">
+      <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+        <a class="page-link" th:href="@{/item(page=${currentPage - 1}, size=4)}">이전</a>
+      </li>
+      <li class="page-item" th:each="i : ${#numbers.sequence(1, 10)}"
+          th:classappend="${i == currentPage} ? 'active'">
+        <a class="page-link" th:href="@{/item(page=${i}, size=4)}" th:text="${i}">1</a>
+      </li>
+      <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+        <a class="page-link" th:href="@{/item(page=${currentPage + 1}, size=4)}">다음</a>
+      </li>
+    </ul>
+  </nav>
+</div>
 <!--header-->
 <header th:fragment="header" class="bg-dark py-3">
   <div class="container px-4 px-lg-5 my-5">

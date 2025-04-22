@@ -62,7 +62,7 @@ public class ItemController {
 
     @GetMapping
     public String item(@RequestParam(defaultValue = "1")int page,
-                       @RequestParam(defaultValue = "8")int size,
+                       @RequestParam(defaultValue = "4")int size,
                        HttpSession session, Model model) {
         SessionUtil.setLoginAttributes(model, session);
 
@@ -183,8 +183,8 @@ public class ItemController {
         return "item/sellerItems";
     }
 
-    @GetMapping("/search/{searchName}")
-    public String search(@PathVariable String searchName, Model model, HttpSession session) {
+    @GetMapping("/search")
+    public String search(String searchName, Model model) {
         List<Item> bySearchName = itemService.findBySearchName(searchName);
 //        List<Auction> bySearchNameAuction = auctionService.findBySearchName(searchName);
 //        List<ItemAuctionDto> itemAuctionList = new ArrayList<>();
@@ -196,9 +196,15 @@ public class ItemController {
 //                }
 //            }
 //        }
-        log.info(bySearchName.getFirst().getItemName());
-        log.info(bySearchName.get(1).getItemName());
         model.addAttribute("itemAuctions", bySearchName);
         return "item/searchItems";
     }
+
+/*    @GetMapping("/search")
+    public String searchKeyword(Model model,@ModelAttribute String searchName) {
+        List<Item> bySearchName = itemService.findBySearchName(searchName);
+
+        model.addAttribute("itemAuctions", bySearchName);
+        return "item/searchItems";
+    }*/
 }

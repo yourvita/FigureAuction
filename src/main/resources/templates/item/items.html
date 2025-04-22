@@ -28,13 +28,7 @@
 <!-- Section-->
 <section class="py-3">
     <div class="container px-4 px-lg-5 mt-5">
-        <!-- 검색창 -->
-        <div class="w-50">
-            <div class="input-group mb-3">
-                <input type="text" id="inputItemName" class="form-control" placeholder="키워드를 입력하세요" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button class="btn btn-outline-secondary" type="button" th:onclick="searchItem()" id="button-addon2">검색</button>
-            </div>
-        </div>
+        <div th:replace="~{user/component :: searchPagination}"></div>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             <div class="col mb-5" th:each="itemInfo : ${itemAuctions}">
                 <div class="card h-100">
@@ -57,6 +51,7 @@
                             <h5 th:text="${itemInfo.item.price} + '원'">가격격</h5>
                             <h5 th:text="${itemInfo.item.quantity} + '개'">수량</h5>
                             <h5 th:text="${itemInfo.item.descriptionDetail}">설명</h5>
+                            <h5 th:text="${itemInfo.item.regDate}">등록시간</h5>
 <!--                            <h5 th:text="${itemInfo.auction.itemStatus}">진행상황</h5>-->
                             <form th:if="${session.userEmail} == 'admin@admin.com'"
                                   th:action="@{/item/{itemId}/delete(itemId=${itemInfo.item.itemId})}" method="post">
@@ -68,20 +63,13 @@
                     </div>
                 </div>
             </div>
-            <!-- 페이징 -->
+
             <nav>
-                <ul class="pagination">
+                <!--<ul class="pagination" th:with="start=${itemAuctions.}">
                     <li th:classappend="${currentPage == 1} ? 'disabled'">
-                        <a th:href="@{/item(page=${currentPage - 1}, size=5)}">이전</a>
+                        <a th:href="@{/item(page=${currentPage - 1}, size=5)}">Previous</a>
                     </li>
-                    <li th:each="i : ${#numbers.sequence(1, totalPages)}"
-                        th:classappend="${i == currentPage} ? 'active'">
-                        <a th:href="@{/item(page=${i}, size=5)}" th:text="${i}">1</a>
-                    </li>
-                    <li th:classappend="${currentPage == totalPages} ? 'disabled'">
-                        <a th:href="@{/item(page=${currentPage + 1}, size=5)}">다음</a>
-                    </li>
-                </ul>
+                </ul>-->
             </nav>
         </div>
     </div>
@@ -112,6 +100,14 @@
             return;
         }
         window.location.href = `/item/search/${encodeURIComponent(searchName)}`;
+    }
+
+    const searchForm = document.getElementById("search-form");
+    const searchInput = searchForm.querySelector("input");
+    const searchBtn = searchForm.querySelector("button");
+
+    function onSearchBtnClick() {
+
     }
 </script>
 </body>
