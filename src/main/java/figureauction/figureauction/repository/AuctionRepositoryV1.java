@@ -2,6 +2,7 @@ package figureauction.figureauction.repository;
 
 import figureauction.figureauction.domain.Auction;
 import figureauction.figureauction.domain.Bid;
+import figureauction.figureauction.domain.Item;
 import figureauction.figureauction.domain.Notification;
 import figureauction.figureauction.mapper.AuctionMapper;
 import lombok.RequiredArgsConstructor;
@@ -77,5 +78,10 @@ public class AuctionRepositoryV1 implements AuctionRepository {
     @Override
     public List<Notification> findUnreadByUserId(Long userId) {
         return mapper.findUnreadByUserId(userId);
+    }
+
+    @Override
+    public List<Auction> findBySearchName(String searchName) {
+        return mapper.findBySearchName(searchName);
     }
 }

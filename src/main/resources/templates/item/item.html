@@ -44,7 +44,7 @@
                             </div>
                             <hr class="my-4">
                             <div class="d-flex align-items-center justify-content-evenly mt-4 mb-0">
-                                <div>
+                                <div class="col-auto">
                                     <button class="w-100 btn btn-primary btn-lg item-btn-custom"
                                             style="padding-left: 2rem; padding-right: 2rem"
                                             onclick="location.href='editForm.html'"
@@ -53,7 +53,10 @@
                                             type="button">상품 수정
                                     </button>
                                 </div>
-
+                                <button class="w-25 btn btn-secondary btn-lg item-detail-btn-group-custom"
+                                        onclick="location.href='items.html'"
+                                        th:onclick="|location.href='@{/}'|" type="button">목록으로
+                                </button>
                                 <div th:if="${item.userEmail == session.userEmail or session.userEmail != null}">
                                     <form th:if="${auction.itemStatus =='end'}" th:action="@{/item/{itemId}/re-register(itemId=${item.itemId})}" th:method="post">
                                         <button class="w-100 btn btn-primary btn-lg item-btn-custom" type="submit"><span style="padding: 1rem 2rem">재등록</span></button>

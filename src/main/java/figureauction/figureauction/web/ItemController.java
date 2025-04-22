@@ -142,4 +142,22 @@ public class ItemController {
         return "item/sellerItems";
     }
 
+    @GetMapping("/search/{searchName}")
+    public String search(@PathVariable String searchName, Model model, HttpSession session) {
+        List<Item> bySearchName = itemService.findBySearchName(searchName);
+//        List<Auction> bySearchNameAuction = auctionService.findBySearchName(searchName);
+//        List<ItemAuctionDto> itemAuctionList = new ArrayList<>();
+//        for(Item item : bySearchName) {
+//            for(Auction auction : bySearchNameAuction) {
+//                if(auction.getItemId() == item.getItemId()) {
+//                    itemAuctionList.add(new ItemAuctionDto(item, auction));
+//                    break;
+//                }
+//            }
+//        }
+        log.info(bySearchName.getFirst().getItemName());
+        log.info(bySearchName.get(1).getItemName());
+        model.addAttribute("itemAuctions", bySearchName);
+        return "item/searchItems";
+    }
 }

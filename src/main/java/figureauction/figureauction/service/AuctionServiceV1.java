@@ -128,7 +128,7 @@ public class AuctionServiceV1 implements AuctionService {
         auction.setCurrentPrice(savedItem.getPrice());
         auction.setStartTime(savedItem.getRegDate());
 //        시간조정 endtime조정
-        auction.setEndTime(savedItem.getRegDate().plusMinutes(60));
+        auction.setEndTime(savedItem.getRegDate().plusMinutes(3));
         saveAuction(auction);
 
     }
@@ -155,5 +155,10 @@ public class AuctionServiceV1 implements AuctionService {
     @Override
     public List<Notification> findUnreadByUserId(Long userId) {
         return repository.findUnreadByUserId(userId);
+    }
+
+    @Override
+    public List<Auction> findBySearchName(String searchName) {
+        return repository.findBySearchName(searchName);
     }
 }

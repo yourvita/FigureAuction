@@ -2,6 +2,7 @@ package figureauction.figureauction.repository;
 
 import figureauction.figureauction.domain.Auction;
 import figureauction.figureauction.domain.Bid;
+import figureauction.figureauction.domain.Item;
 import figureauction.figureauction.domain.Notification;
 
 import java.util.List;
@@ -20,4 +21,5 @@ public interface AuctionRepository {
     void reRegister(Long auctionId);
     void saveNotification(Notification notification);
     List<Notification> findUnreadByUserId(Long userId);
+    List<Auction> findBySearchName(String searchName);
 }

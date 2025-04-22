@@ -51,4 +51,9 @@ public class ItemServiceV1 implements ItemService {
         return itemRepository.findBySellerId(sellerId);
     }
 
+    @Override
+    public List<Item> findBySearchName(String searchName) {
+        return itemRepository.findBySearchName(searchName);
+    }
+
 }

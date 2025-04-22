@@ -22,4 +22,7 @@ public class AdminService {
         SessionUtil.setLoginAttributes(model, session);
         model.addAttribute("memberList", memberList());
     }
+    public void deleteMember(long userId) {
+        repository.deleteMember(userId);
+    }
 }

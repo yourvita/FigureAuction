@@ -49,4 +49,9 @@ public class ItemRepositoryV1 implements ItemRepository {
     public List<Item> findBySellerId(String sellerId) {
         return itemMapper.findBySellerId(sellerId);
     }
+
+    @Override
+    public List<Item> findBySearchName(String searchName) {
+        return itemMapper.findBySearchName(searchName);
+    }
 }

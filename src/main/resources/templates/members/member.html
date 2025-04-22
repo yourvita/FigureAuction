@@ -45,20 +45,18 @@
                     </div>
                     <div th:if="${session.userEmail}=='admin@admin.com'">
                       <div class="form-floating mb-3">
-                        <select class="form-control form-select" name="userGrade" id="userGrade"
+                        <input class="form-control form-select" name="userGrade" id="userGrade"
                                 th:field="${member.userGrade}" th:value="${member.userGrade}" readonly>
-                          <option th:value="'A'" th:text="A"></option>
+                          <!--<option th:value="'A'" th:text="A"></option>
                           <option th:value="'B'" th:text="B"></option>
-                          <option th:value="'C'" th:text="C"></option>
-                        </select>
+                          <option th:value="'C'" th:text="C"></option>-->
                         <label for="userGrade">회원 등급</label>
                       </div>
                       <div class="form-floating mb-3">
-                        <select class="form-control form-select" name="userStatus" id="userStatus"
+                        <input class="form-control form-select" name="userStatus" id="userStatus"
                                 th:field="${member.userStatus}" th:value="${member.userStatus}" readonly>
-                          <option th:value="true" th:text="정상"></option>
-                          <option th:value="false" th:text="정지"></option>
-                        </select>
+                          <!--<option th:value="true" th:text="정상"></option>
+                          <option th:value="false" th:text="정지"></option>-->
                         <label for="userStatus">정지 여부</label>
                       </div>
                     </div>

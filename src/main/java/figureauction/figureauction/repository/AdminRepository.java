@@ -14,4 +14,8 @@ public class AdminRepository {
     public List<Member> memberList() {
         return mapper.memberList();
     }
+
+    public void deleteMember(Long userId) {
+        mapper.deleteMember(userId);
+    }
 }

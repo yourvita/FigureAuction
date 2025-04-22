@@ -41,25 +41,25 @@
                     <!-- 상품이미지, 상품명, 가격, 수량, 설명,  -->
                     <!-- 진행이끝난상품은 자동삭제, 관리자 삭제 -->
                     <!-- Product image-->
-                    <div class="image-center-custom"><img class="card-img-top image-size-custom" th:src="@{/item/itemimage/{filename}(filename=${itemInfo.item.imageDetail != null ? itemInfo.item.imageDetail : 'default.png'})}" alt="상품 이미지" /></div>
+                    <div class="image-center-custom"><img class="card-img-top image-size-custom" th:src="@{/item/itemimage/{filename}(filename=${itemInfo.imageDetail != null ? itemInfo.imageDetail : 'default.png'})}" alt="상품 이미지" /></div>
                     <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">
                             <!-- 상품명-->
                             <h1 class="fw-bolder" >
                                 <a href="item.html"
-                                   th:href="@{/item/{itemId}(itemId=${itemInfo.item.itemId})}"
-                                   th:text="${itemInfo.item.itemName}"
+                                   th:href="@{/item/{itemId}(itemId=${itemInfo.itemId})}"
+                                   th:text="${itemInfo.itemName}"
                                    style="text-decoration: none;">상품명</a>
                             </h1>
                             <!-- 가격-->
-                            <h5><a th:href="@{/item/{sellerId}/sellerItems(sellerId=${itemInfo.item.sellerId})}" th:text="${itemInfo.item.sellerId}" style="text-decoration: none;">판매자</a></h5>
-                            <h5 th:text="${itemInfo.item.price} + '원'">가격격</h5>
-                            <h5 th:text="${itemInfo.item.quantity} + '개'">수량</h5>
-                            <h5 th:text="${itemInfo.item.descriptionDetail}">설명</h5>
-<!--                            <h5 th:text="${itemInfo.auction.itemStatus}">진행상황</h5>-->
+                            <h5><a th:href="@{/item/{sellerId}/sellerItems(sellerId=${itemInfo.sellerId})}" th:text="${itemInfo.sellerId}" style="text-decoration: none;">판매자</a></h5>
+                            <h5 th:text="${itemInfo.price} + '원'">가격격</h5>
+                            <h5 th:text="${itemInfo.quantity} + '개'">수량</h5>
+                            <h5 th:text="${itemInfo.descriptionDetail}">설명</h5>
+                            <!--                            <h5 th:text="${itemInfo.auction.itemStatus}">진행상황</h5>-->
                             <form th:if="${session.userEmail} == 'admin@admin.com'"
-                                  th:action="@{/item/{itemId}/delete(itemId=${itemInfo.item.itemId})}" method="post">
+                                  th:action="@{/item/{itemId}/delete(itemId=${itemInfo.itemId})}" method="post">
                                 <button type="submit" class="btn btn-outline-dark mt-auto">
                                     삭제하기
                                 </button>

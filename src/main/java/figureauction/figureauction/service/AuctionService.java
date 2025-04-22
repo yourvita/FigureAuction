@@ -22,4 +22,5 @@ public interface AuctionService {
     String getAuctionBidderName(long auctionId);
     void reRegister(Long auctionId);
     List<Notification> findUnreadByUserId(Long userId);
+    List<Auction> findBySearchName(String searchName);
 }

@@ -6,4 +6,8 @@
     <select id="memberList" resultType="member">
         select * from members;
     </select>
+
+    <delete id="deleteMember">
+        delete from members where user_id=#{userId}
+    </delete>
 </mapper>

@@ -15,4 +15,5 @@ public interface ItemMapper {
     void deleteItem(long id);
     void bidUpdate(long id, int price);
     List<Item> findBySellerId(String sellerId);
+    List<Item> findBySearchName(String searchName);
 }

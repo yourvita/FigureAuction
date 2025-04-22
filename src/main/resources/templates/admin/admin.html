@@ -4,26 +4,14 @@
   <meta charset="utf-8">
   <link href="../css/bootstrap.min.css"
         th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-  <style>
-    .container {
-      max-width: 560px;
-    }
-  </style>
+  <link th:href="@{/css/items.css}"
+        href="/css/items.css" rel="stylesheet">
 </head>
 <body>
-<div class="container" style="max-width: 600px">
-
-  <div class="py-5 text-center">
+<div th:replace="~{user/component :: navbar}"></div>
+<div class="container">
+  <div class="py-2 text-center">
     <h2>회원 목록</h2>
-  </div>
-  <div class="row">
-    <div class="col-2">
-      <div th:if="${isLoggedIn}">
-        <form th:action="@{/members/logout}" method="post">
-          <button type="submit" class="w-100 btn btn-dark btn-lg">로그아웃</button>
-        </form>
-      </div>
-    </div>
   </div>
   <hr class="my-4">
   <div>
@@ -39,6 +27,7 @@
         <th>가입일자</th>
         <th>정지여부</th>
         <th>수정하기</th>
+        <th>회원삭제</th>
       </tr>
       </thead>
       <tbody>
@@ -51,16 +40,38 @@
         <td th:text="${member.userGrade}"></td>
         <td th:text="${member.joinDate}"></td>
         <td th:text="${member.userStatus}?'정상':'정지'"></td>
-        <td><button class="w-100 btn btn-primary btn-lg" th:onclick="|location.href='@{/members/{userId}/edit(userId=${member.userId})}'|">수정하기</button></td>
+        <td><button class="btn btn-primary" style="width:80%;" th:onclick="|location.href='@{/members/{userId}/edit(userId=${member.userId})}'|">수정하기</button></td>
+<!--        <td><button class="w-50 btn btn-primary btn-lg" th:onclick="|location.href='@{/admin/{userId}/deleteMember(userId=${member.userId})}'|">회원삭제</button></td>-->
+        <td><button class="btn btn-primary" style="width:80%;" th:onclick="deleteMember([[${member.userId}]])">회원삭제</button></td>
       </tr>
       </tbody>
     </table>
 
-    <button class="w-100 btn btn-secondary btn-lg"
+    <button class="w-25 btn btn-secondary btn-lg item-detail-btn-group-custom"
             onclick="location.href='items.html'"
-            th:onclick="|location.href='@{/}'|" type="button">상품목록</button>
+            th:onclick="|location.href='@{/}'|" type="button">목록으로</button>
   </div>
 </div>
 <div th:replace="~{user/notifications :: notify}"></div>
+<script>
+  function deleteMember(userId) {
+    if(!confirm('정말 삭제하시겠습니까?')) return;
+    fetch(`/admin/${userId}/deleteMember`, {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      }
+    }).then(response => {
+      if(response.redirected) {
+        window.location.href = response.url;
+      } else if(response.ok) {
+        alert("삭제 완료");
+        window.location.reload();
+      } else {
+        alert("삭제 실패");
+      }
+    })
+  }
+</script>
 </body>
 </html>

@@ -20,6 +20,10 @@
         select * from item where seller_id=#{sellerId}
     </select>
 
+    <select id="findBySearchName" resultType="Item">
+        select * from item where item_name like concat('%', #{searchName}, '%')
+    </select>
+
     <update id="update">
         update item set item_name=#{item.itemName}, price=#{item.price}, quantity=#{item.quantity}, description_detail=#{item.descriptionDetail}, image_detail=#{item.imageDetail}
         where item_id = #{id}
