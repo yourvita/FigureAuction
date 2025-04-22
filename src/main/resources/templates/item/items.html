@@ -11,9 +11,10 @@
             text-align: center;
         }
 
-        .item-custom {
+        .image-size-custom {
             width: 15rem;
             height: 15rem;
+            object-fit: contain;
         }
 
     </style>
@@ -40,7 +41,7 @@
                     <!-- 상품이미지, 상품명, 가격, 수량, 설명,  -->
                     <!-- 진행이끝난상품은 자동삭제, 관리자 삭제 -->
                     <!-- Product image-->
-                    <div class="image-center-custom"><img class="card-img-top item-custom" th:src="@{/item/itemimage/{filename}(filename=${itemInfo.item.imageDetail != null ? itemInfo.item.imageDetail : 'default.png'})}" alt="상품 이미지" /></div>
+                    <div class="image-center-custom"><img class="card-img-top image-size-custom" th:src="@{/item/itemimage/{filename}(filename=${itemInfo.item.imageDetail != null ? itemInfo.item.imageDetail : 'default.png'})}" alt="상품 이미지" /></div>
                     <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">
