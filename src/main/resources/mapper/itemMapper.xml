@@ -49,6 +49,22 @@
                  JOIN auction a ON i.item_id = a.item_id
     </select>
 
+    <select id="findByNameItemAuctionPage" resultMap="ItemAuctionResultMap">
+        SELECT i.*, a.*
+        FROM item i JOIN auction a ON i.item_id = a.item_id
+        WHERE i.item_name like concat('%', #{searchName}, '%')
+        ORDER BY i.reg_date DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countByNameItemAuctions" resultType="int">
+        SELECT count(*)
+        FROM item i JOIN auction a ON i.item_id = a.item_id
+        WHERE i.item_name like concat('%', #{searchName}, '%')
+    </select>
+
+
+
     <select id="findOne" resultType="Item" parameterType="long">
         select * from item where item_id = #{itemId}
     </select>

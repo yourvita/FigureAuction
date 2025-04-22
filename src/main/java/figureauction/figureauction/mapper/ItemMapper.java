@@ -19,4 +19,6 @@ public interface ItemMapper {
     List<Item> findBySearchName(String searchName);
     List<ItemAuctionDto> findItemAuctionPage(@Param("limit") int limit, @Param("offset") int offset);
     int countItemAuctions();
+    List<ItemAuctionDto> findByNameItemAuctionPage(String searchName, @Param("limit") int limit, @Param("offset") int offset);
+    int countByNameItemAuctions(String searchName);
 }

@@ -64,51 +64,9 @@
                 </div>
             </div>
 
-            <nav>
-                <!--<ul class="pagination" th:with="start=${itemAuctions.}">
-                    <li th:classappend="${currentPage == 1} ? 'disabled'">
-                        <a th:href="@{/item(page=${currentPage - 1}, size=5)}">Previous</a>
-                    </li>
-                </ul>-->
-            </nav>
         </div>
     </div>
 </section>
 <div th:replace="~{user/notifications :: notify}"></div>
-<script>
-    function findByItemName() {
-        const itemName = document.getElementById('inputItemName').value;
-        if(itemName === null) {
-            alert('키워드를 입력하세요')
-            return;
-        }
-        fetch(`item/search/${itemName}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'application/json'
-            }
-        }).then(response => response.json())
-            .then(date => {
-
-            })
-    }
-
-    function searchItem() {
-        const searchName = document.getElementById('inputItemName').value;
-        if(!searchName) {
-            alert('검색어를 입력하세요');
-            return;
-        }
-        window.location.href = `/item/search/${encodeURIComponent(searchName)}`;
-    }
-
-    const searchForm = document.getElementById("search-form");
-    const searchInput = searchForm.querySelector("input");
-    const searchBtn = searchForm.querySelector("button");
-
-    function onSearchBtnClick() {
-
-    }
-</script>
 </body>
 </html>

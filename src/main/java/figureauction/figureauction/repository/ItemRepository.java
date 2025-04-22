@@ -2,6 +2,7 @@ package figureauction.figureauction.repository;
 
 import figureauction.figureauction.domain.Item;
 import figureauction.figureauction.domain.ItemAuctionDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface ItemRepository {
     List<Item> findBySearchName(String searchName);
     List<ItemAuctionDto> findItemAuctionPage(int limit, int offset);
     int countItemAuctions();
+    List<ItemAuctionDto> findByNameItemAuctionPage(String searchName, @Param("limit") int limit, @Param("offset") int offset);
+    int countByNameItemAuctions(String searchName);
 }

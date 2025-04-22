@@ -66,5 +66,15 @@ public class ItemRepositoryV1 implements ItemRepository {
         return itemMapper.countItemAuctions();
     }
 
+    @Override
+    public List<ItemAuctionDto> findByNameItemAuctionPage(String searchName, int limit, int offset) {
+        return itemMapper.findByNameItemAuctionPage(searchName, limit, offset);
+    }
+
+    @Override
+    public int countByNameItemAuctions(String searchName) {
+        return itemMapper.countByNameItemAuctions(searchName);
+    }
+
 
 }

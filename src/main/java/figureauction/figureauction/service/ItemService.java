@@ -18,4 +18,5 @@ public interface ItemService {
     List<Item> findBySellerId(String sellerId);
     List<Item> findBySearchName(String searchName);
     Page<ItemAuctionDto> getPagedItemAuctions(int page, int size);
+    Page<ItemAuctionDto> findByNameItemAuctionPage(String searchName, int page, int size);
 }

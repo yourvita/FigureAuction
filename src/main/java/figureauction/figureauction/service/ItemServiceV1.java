@@ -68,5 +68,14 @@ public class ItemServiceV1 implements ItemService {
         return new PageImpl<>(content, PageRequest.of(page -1 , size), total);
     }
 
+    @Override
+    public Page<ItemAuctionDto> findByNameItemAuctionPage(String searchName, int page, int size) {
+        int offset = (page - 1) * size;
+        List<ItemAuctionDto> content = itemRepository.findByNameItemAuctionPage(searchName, size, offset);
+        int total = itemRepository.countByNameItemAuctions(searchName);
+
+        return new PageImpl<>(content, PageRequest.of(page -1 , size), total);
+    }
+
 
 }

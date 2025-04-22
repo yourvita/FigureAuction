@@ -8,7 +8,6 @@ public class ItemAuctionDto {
     private Item item;
     private Auction auction;
 
-    // ✅ setter 필요
     public void setItem(Item item) {
         this.item = item;
     }

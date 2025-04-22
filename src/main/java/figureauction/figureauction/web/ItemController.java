@@ -184,19 +184,15 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public String search(String searchName, Model model) {
-        List<Item> bySearchName = itemService.findBySearchName(searchName);
-//        List<Auction> bySearchNameAuction = auctionService.findBySearchName(searchName);
-//        List<ItemAuctionDto> itemAuctionList = new ArrayList<>();
-//        for(Item item : bySearchName) {
-//            for(Auction auction : bySearchNameAuction) {
-//                if(auction.getItemId() == item.getItemId()) {
-//                    itemAuctionList.add(new ItemAuctionDto(item, auction));
-//                    break;
-//                }
-//            }
-//        }
-        model.addAttribute("itemAuctions", bySearchName);
+    public String search(@RequestParam(defaultValue = "1")int page,
+                         @RequestParam(defaultValue = "4")int size,
+                         String searchName, Model model, HttpSession session) {
+        SessionUtil.setLoginAttributes(model, session);
+
+        Page<ItemAuctionDto> bySearchName = itemService.findByNameItemAuctionPage(searchName, page, size);
+        model.addAttribute("itemAuctions", bySearchName.getContent());
+        model.addAttribute("totalPages", bySearchName.getTotalPages());
+        model.addAttribute("currentPage", page);
         return "item/searchItems";
     }
 

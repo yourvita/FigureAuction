@@ -97,6 +97,33 @@
       </li>
     </ul>
   </nav>
+  <script>
+    function findByItemName() {
+      const itemName = document.getElementById('inputItemName').value;
+      if(itemName === null) {
+        alert('키워드를 입력하세요')
+        return;
+      }
+      fetch(`item/search/${itemName}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json'
+        }
+      }).then(response => response.json())
+              .then(date => {
+
+              })
+    }
+
+    function searchItem() {
+      const searchName = document.getElementById('inputItemName').value;
+      if(!searchName) {
+        alert('검색어를 입력하세요');
+        return;
+      }
+      window.location.href = `/item/search/${encodeURIComponent(searchName)}`;
+    }
+  </script>
 </div>
 <!--header-->
 <header th:fragment="header" class="bg-dark py-3">
