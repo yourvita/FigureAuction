@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +40,7 @@ public class ItemController {
     private final AuctionService auctionService;
     private final FileUploadUtil fileUploadUtil;
 
-    @GetMapping
+/*    @GetMapping
     public String item(HttpSession session, Model model) {
         SessionUtil.setLoginAttributes(model, session);
 
@@ -53,11 +55,50 @@ public class ItemController {
                 }
             }
         }
-
         model.addAttribute("itemAuctions", itemAuctionList);
 
         return "item/items";
+    }*/
+
+    @GetMapping
+    public String item(@RequestParam(defaultValue = "1")int page,
+                       @RequestParam(defaultValue = "8")int size,
+                       HttpSession session, Model model) {
+        SessionUtil.setLoginAttributes(model, session);
+
+        Page<ItemAuctionDto> itemAuctions = itemService.getPagedItemAuctions(page, size);
+        model.addAttribute("itemAuctions", itemAuctions.getContent());
+        model.addAttribute("totalPages", itemAuctions.getTotalPages());
+        model.addAttribute("currentPage", page);
+
+        return "item/items";
     }
+
+//    @GetMapping
+//    public String item(@RequestParam(defaultValue = "1") int page,
+//                       @RequestParam(defaultValue = "8") int size,
+//                       HttpSession session, Model model) {
+//        SessionUtil.setLoginAttributes(model, session);
+//        Page<Item> items = itemService.getItemPage(page, size);
+//        Page<Auction> auctions = auctionService.getItemPage(page, size);
+//        List<Item> items = itemService.findAll();
+//        List<Auction> auctions = auctionService.findAll();
+//        List<ItemAuctionDto> itemAuctionList = new ArrayList<>();
+//        for(Item item : items) {
+//            for(Auction auction : auctions) {
+//                if(auction.getItemId() == item.getItemId()) {
+//                    itemAuctionList.add(new ItemAuctionDto(item, auction));
+//                    break;
+//                }
+//            }
+//        }
+//        Page<ItemAuctionDto> itemAuctionDtos = new PageImpl<>(itemAuctionList);
+//        model.addAttribute("itemAuctionDtos", itemAuctionDtos.getContent());
+//        model.addAttribute("totalPages", itemAuctionDtos.getTotalPages());
+//        model.addAttribute("currentPage", page);
+//
+//        return "item/items";
+//    }
 
     @GetMapping("/{itemId}")
     public String itemDetail(@PathVariable("itemId") long itemId,

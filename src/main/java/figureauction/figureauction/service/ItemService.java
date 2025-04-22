@@ -2,6 +2,7 @@ package figureauction.figureauction.service;
 
 import figureauction.figureauction.domain.Item;
 import figureauction.figureauction.domain.ItemAuctionDto;
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -16,4 +17,5 @@ public interface ItemService {
     void bidUpdate(long id, int price);
     List<Item> findBySellerId(String sellerId);
     List<Item> findBySearchName(String searchName);
+    Page<ItemAuctionDto> getPagedItemAuctions(int page, int size);
 }

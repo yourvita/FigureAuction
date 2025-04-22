@@ -4,6 +4,7 @@ import figureauction.figureauction.domain.Auction;
 import figureauction.figureauction.domain.Bid;
 import figureauction.figureauction.domain.Item;
 import figureauction.figureauction.domain.Notification;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

@@ -9,6 +9,9 @@ import figureauction.figureauction.web.util.NotificationSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -161,4 +164,6 @@ public class AuctionServiceV1 implements AuctionService {
     public List<Auction> findBySearchName(String searchName) {
         return repository.findBySearchName(searchName);
     }
+
+
 }

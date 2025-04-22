@@ -1,6 +1,7 @@
 package figureauction.figureauction.repository;
 
 import figureauction.figureauction.domain.Item;
+import figureauction.figureauction.domain.ItemAuctionDto;
 import figureauction.figureauction.mapper.ItemMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -54,4 +55,16 @@ public class ItemRepositoryV1 implements ItemRepository {
     public List<Item> findBySearchName(String searchName) {
         return itemMapper.findBySearchName(searchName);
     }
+
+    @Override
+    public List<ItemAuctionDto> findItemAuctionPage(int limit, int offset) {
+        return itemMapper.findItemAuctionPage(limit, offset);
+    }
+
+    @Override
+    public int countItemAuctions() {
+        return itemMapper.countItemAuctions();
+    }
+
+
 }

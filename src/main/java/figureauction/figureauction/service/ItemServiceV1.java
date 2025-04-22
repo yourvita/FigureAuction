@@ -5,6 +5,9 @@ import figureauction.figureauction.domain.ItemAuctionDto;
 import figureauction.figureauction.repository.ItemRepository;
 import figureauction.figureauction.domain.Item;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,5 +58,15 @@ public class ItemServiceV1 implements ItemService {
     public List<Item> findBySearchName(String searchName) {
         return itemRepository.findBySearchName(searchName);
     }
+
+    @Override
+    public Page<ItemAuctionDto> getPagedItemAuctions(int page, int size) {
+        int offset = (page - 1) * size;
+        List<ItemAuctionDto> content = itemRepository.findItemAuctionPage(size, offset);
+        int total = itemRepository.countItemAuctions();
+
+        return new PageImpl<>(content, PageRequest.of(page -1 , size), total);
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package figureauction.figureauction.mapper;
 
 import figureauction.figureauction.domain.Item;
+import figureauction.figureauction.domain.ItemAuctionDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,4 +17,6 @@ public interface ItemMapper {
     void bidUpdate(long id, int price);
     List<Item> findBySellerId(String sellerId);
     List<Item> findBySearchName(String searchName);
+    List<ItemAuctionDto> findItemAuctionPage(@Param("limit") int limit, @Param("offset") int offset);
+    int countItemAuctions();
 }

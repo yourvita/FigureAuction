@@ -40,6 +40,8 @@ dependencies {
 	implementation 'org.webjars:sockjs-client:1.5.1'
 //	image resizing
 	implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+	// https://mvnrepository.com/artifact/org.springframework.data/spring-data-commons
+	implementation("org.springframework.data:spring-data-commons:3.4.4")
 }
 
 tasks.named('test') {

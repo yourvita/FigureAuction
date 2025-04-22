@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="figureauction.figureauction.mapper.ItemMapper">
+    <resultMap id="ItemAuctionResultMap" type="figureauction.figureauction.domain.ItemAuctionDto">
+        <association property="item" javaType="figureauction.figureauction.domain.Item">
+            <id property="itemId" column="item_id"/>
+            <result property="itemName" column="item_name"/>
+            <result property="sellerId" column="seller_id"/>
+            <result property="price" column="price"/>
+            <result property="quantity" column="quantity"/>
+            <result property="descriptionDetail" column="description_detail"/>
+            <result property="imageDetail" column="image_detail"/>
+            <result property="userEmail" column="user_email"/>
+            <result property="regDate" column="reg_date"/>
+        </association>
+        <association property="auction" javaType="figureauction.figureauction.domain.Auction">
+            <id property="auctionId" column="auction_id"/>
+            <result property="itemId" column="item_id"/>
+            <result property="startPrice" column="start_price"/>
+            <result property="currentPrice" column="current_price"/>
+            <result property="bidUnit" column="bid_unit"/>
+            <result property="startTime" column="start_time"/>
+            <result property="endTime" column="end_time"/>
+            <result property="itemStatus" column="item_status"/>
+        </association>
+    </resultMap>
     <insert id="saveItem" useGeneratedKeys="true" keyProperty="itemId" parameterType="Item">
         insert into item (item_id, seller_id, user_email, item_name, price, quantity, description_detail, image_Detail)
         values (null, #{sellerId}, #{userEmail}, #{itemName}, #{price}, #{quantity},
@@ -10,6 +34,19 @@
 
     <select id="findAll" resultType="Item">
         select * from item
+    </select>
+
+    <select id="findItemAuctionPage" resultMap="ItemAuctionResultMap">
+        SELECT i.*, a.*
+        FROM item i JOIN auction a ON i.item_id = a.item_id
+        ORDER BY i.reg_date DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countItemAuctions" resultType="int">
+        SELECT COUNT(*)
+        FROM item i
+                 JOIN auction a ON i.item_id = a.item_id
     </select>
 
     <select id="findOne" resultType="Item" parameterType="long">

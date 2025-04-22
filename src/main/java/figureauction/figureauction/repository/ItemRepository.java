@@ -1,6 +1,7 @@
 package figureauction.figureauction.repository;
 
 import figureauction.figureauction.domain.Item;
+import figureauction.figureauction.domain.ItemAuctionDto;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface ItemRepository {
     void bidUpdate(long id, int price);
     List<Item> findBySellerId(String sellerId);
     List<Item> findBySearchName(String searchName);
+    List<ItemAuctionDto> findItemAuctionPage(int limit, int offset);
+    int countItemAuctions();
 }
