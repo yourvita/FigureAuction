@@ -40,26 +40,6 @@ public class ItemController {
     private final AuctionService auctionService;
     private final FileUploadUtil fileUploadUtil;
 
-/*    @GetMapping
-    public String item(HttpSession session, Model model) {
-        SessionUtil.setLoginAttributes(model, session);
-
-        List<Item> items = itemService.findAll();
-        List<Auction> auctions = auctionService.findAll();
-        List<ItemAuctionDto> itemAuctionList = new ArrayList<>();
-        for(Item item : items) {
-            for(Auction auction : auctions) {
-                if(auction.getItemId() == item.getItemId()) {
-                    itemAuctionList.add(new ItemAuctionDto(item, auction));
-                    break;
-                }
-            }
-        }
-        model.addAttribute("itemAuctions", itemAuctionList);
-
-        return "item/items";
-    }*/
-
     @GetMapping
     public String item(@RequestParam(defaultValue = "1")int page,
                        @RequestParam(defaultValue = "4")int size,
@@ -73,32 +53,6 @@ public class ItemController {
 
         return "item/items";
     }
-
-//    @GetMapping
-//    public String item(@RequestParam(defaultValue = "1") int page,
-//                       @RequestParam(defaultValue = "8") int size,
-//                       HttpSession session, Model model) {
-//        SessionUtil.setLoginAttributes(model, session);
-//        Page<Item> items = itemService.getItemPage(page, size);
-//        Page<Auction> auctions = auctionService.getItemPage(page, size);
-//        List<Item> items = itemService.findAll();
-//        List<Auction> auctions = auctionService.findAll();
-//        List<ItemAuctionDto> itemAuctionList = new ArrayList<>();
-//        for(Item item : items) {
-//            for(Auction auction : auctions) {
-//                if(auction.getItemId() == item.getItemId()) {
-//                    itemAuctionList.add(new ItemAuctionDto(item, auction));
-//                    break;
-//                }
-//            }
-//        }
-//        Page<ItemAuctionDto> itemAuctionDtos = new PageImpl<>(itemAuctionList);
-//        model.addAttribute("itemAuctionDtos", itemAuctionDtos.getContent());
-//        model.addAttribute("totalPages", itemAuctionDtos.getTotalPages());
-//        model.addAttribute("currentPage", page);
-//
-//        return "item/items";
-//    }
 
     @GetMapping("/{itemId}")
     public String itemDetail(@PathVariable("itemId") long itemId,

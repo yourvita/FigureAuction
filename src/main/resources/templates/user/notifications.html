@@ -21,6 +21,7 @@
                 // 알림 표시
                 console.log("콘솔: "+notification.body)
                 alert("알림" + notification.body);
+                location.reload(true);
             });
         }, function(error) {
             console.log("stomp 연결실패")

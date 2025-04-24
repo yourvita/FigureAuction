@@ -108,11 +108,32 @@
                                                 <button class="w-25 btn btn-secondary btn-lg item-detail-btn-group-custom"
                                                         onclick="location.href='items.html'"
                                                         th:onclick="|location.href='@{/}'|" type="button">목록으로</button>
+                                                <button class="w-25 btn btn-secondary btn-lg item-detail-btn-group-custom"
+                                                        type="button"
+                                                        onclick="location.href='loginForm.html'"
+                                                        th:onclick="|location.href='@{/chat/{userEmail}(userEmail=${item.userEmail})}'|"
+                                                        th:if="${isLoggedIn}">
+                                                    채팅
+                                                </button>
+                                                <!--<button class="w-25 btn btn-secondary btn-lg item-detail-btn-group-custom"
+                                                        type="button"
+                                                        onclick="location.href='loginForm.html'"
+                                                        th:onclick="|location.href='@{/chat/{userEmail}(userEmail=${item.userEmail})}'|"
+                                                        th:if="${isLoggedIn and item.userEmail == memberEmail}">
+                                                    채팅방
+                                                </button>-->
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
+                            <button class="w-25 btn btn-secondary btn-lg item-detail-btn-group-custom"
+                                    type="button"
+                                    onclick="location.href='loginForm.html'"
+                                    th:onclick="|location.href='@{/chat/{userEmail}(userEmail=${item.userEmail})}'|"
+                                    th:if="${isLoggedIn}">
+                                채팅
+                            </button>
                         </div>
                     </div>
                 </div>

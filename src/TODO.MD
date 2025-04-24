@@ -47,5 +47,8 @@
 - 04/23
     + admin 페이징
     + item_status 'end' 이면 검색 되지 않게
-    + user_status '정지' 이면 입찰 할 수 없게
+
+- 04/24
+    + admin 페이징, session 관리 수정
+    + 웹소켓 이용한 채팅
 
