@@ -50,6 +50,7 @@ public class ItemController {
         model.addAttribute("itemAuctions", itemAuctions.getContent());
         model.addAttribute("totalPages", itemAuctions.getTotalPages());
         model.addAttribute("currentPage", page);
+        if(itemAuctions.getTotalPages()==0) model.addAttribute("totalPages", 1);
 
         return "item/items";
     }
