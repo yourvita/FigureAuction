@@ -39,31 +39,26 @@ public class AdminController {
                             Model model, HttpSession session) {
         Boolean adminAccess = (Boolean) session.getAttribute("adminAccess");
         log.info("adminAccess: {}", adminAccess);
-        if(adminAccess) {
-            service.prepareAdmin(model, session, page, size);
-
-            return "admin/admin";
-        }
-            log.warn("Admin access is denied");
+        if(adminAccess == null || !adminAccess) {
             return "redirect:/";
+        }
+            service.prepareAdmin(model, session, page, size);
+            return "admin/admin";
+
     }
 
     @GetMapping("/search")
     public String search(@RequestParam(defaultValue = "1")int page,
                          @RequestParam(defaultValue = "4")int size,
                          String searchName, Model model, HttpSession session) {
-        Boolean allowed = (session != null) ? (Boolean) session.getAttribute("adminAccess") : null;
-        if (allowed == null || !allowed) {
-//            log.warn("Admin access is denied");
+        Object userEmail = session.getAttribute("userEmail");
+        if(userEmail == null || !userEmail.equals("admin@admin.com")) {
             return "redirect:/";
         }
-
-        Page<Member> content = service.searchMemberList(searchName, page, size);
+        service.searchMemberList(model,session, searchName, page, size);
         model.addAttribute("searchName", searchName);
-        model.addAttribute("content", content.getContent());
-        model.addAttribute("totalPages", content.getTotalPages());
-        model.addAttribute("currentPage", page);
         return "admin/admin";
+        /* TODO admin 유저검색 이상함*/
     }
 
     @PostMapping("/{userId}/deleteMember")

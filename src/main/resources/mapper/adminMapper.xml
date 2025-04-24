@@ -13,6 +13,16 @@
         select count(*) from members
     </select>
 
+    <select id="searchMemberList" resultType="member">
+        select * from members where user_name like concat('%',#{searchName},'%')
+        ORDER BY join_date desc
+        LIMIT #{limit} OFFSET #{offset};
+    </select>
+
+    <select id="countSearchMemberList" resultType="int">
+        select count(*) from members where user_name like concat('%',#{searchName},'%')
+    </select>
+
     <delete id="deleteMember">
         delete from members where user_id=#{userId}
     </delete>

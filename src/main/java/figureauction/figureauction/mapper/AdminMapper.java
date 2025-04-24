@@ -10,5 +10,7 @@ import java.util.List;
 public interface AdminMapper {
     List<Member> memberList(@Param("limit") int limit, @Param("offset") int offset);
     int countMemberList();
+    List<Member> searchMemberList(String searchName, @Param("limit") int limit, @Param("offset") int offset);
+    int countSearchMemberList(String searchName);
     void deleteMember(Long userId);
 }

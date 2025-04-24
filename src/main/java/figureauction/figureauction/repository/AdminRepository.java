@@ -18,6 +18,15 @@ public class AdminRepository {
     public int countMemberList() {
         return mapper.countMemberList();
     }
+
+    public List<Member> searchMemberList(String searchName, int limit, int offset) {
+        return mapper.searchMemberList(searchName, limit, offset);
+    }
+
+    public int countSearchMemberList(String searchName) {
+        return mapper.countSearchMemberList(searchName);
+    }
+
     public void deleteMember(Long userId) {
         mapper.deleteMember(userId);
     }

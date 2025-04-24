@@ -190,6 +190,7 @@ public class ItemController {
         SessionUtil.setLoginAttributes(model, session);
 
         Page<ItemAuctionDto> bySearchName = itemService.findByNameItemAuctionPage(searchName, page, size);
+        model.addAttribute("searchName", searchName);
         model.addAttribute("itemAuctions", bySearchName.getContent());
         model.addAttribute("totalPages", bySearchName.getTotalPages());
         model.addAttribute("currentPage", page);

@@ -25,14 +25,14 @@
   <nav>
     <ul class="pagination">
       <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-        <a class="page-link" th:href="@{/admin/adminPage(page=${currentPage - 1}, size=4, searchName=${searchName})}">이전</a>
+        <a class="page-link" th:href="@{/admin/search(page=${currentPage - 1}, size=4, searchName=${searchName})}">이전</a>
       </li>
       <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
           th:classappend="${i == currentPage} ? 'active'">
-        <a class="page-link" th:href="@{/admin/adminPage(page=${i}, size=4, searchName=${searchName})}" th:text="${i}">1</a>
+        <a class="page-link" th:href="@{/admin/search(page=${i}, size=4, searchName=${searchName})}" th:text="${i}">1</a>
       </li>
       <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-        <a class="page-link" th:href="@{/admin/adminPage(page=${currentPage + 1}, size=4, searchName=${searchName})}">다음</a>
+        <a class="page-link" th:href="@{/admin/search(page=${currentPage + 1}, size=4, searchName=${searchName})}">다음</a>
       </li>
     </ul>
   </nav>
