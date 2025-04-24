@@ -74,7 +74,8 @@
                             <h5 th:text="${itemInfo.item.price} + '원'">가격격</h5>
                             <h5 th:text="${itemInfo.item.quantity} + '개'">수량</h5>
                             <h5 th:text="${itemInfo.item.descriptionDetail}">설명</h5>
-                            <!--                            <h5 th:text="${itemInfo.auction.itemStatus}">진행상황</h5>-->
+                            <h5 th:if="${itemInfo.auction.itemStatus == 'progress'}">경매 진행중</h5>
+                            <h5 th:if="${itemInfo.auction.itemStatus == 'end'}">종료</h5>
                             <form th:if="${session.userEmail} == 'admin@admin.com'"
                                   th:action="@{/item/{itemId}/delete(itemId=${itemInfo.item.itemId})}" method="post">
                                 <button type="submit" class="btn btn-outline-dark mt-auto">

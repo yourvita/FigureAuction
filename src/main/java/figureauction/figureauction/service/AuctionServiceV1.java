@@ -131,7 +131,7 @@ public class AuctionServiceV1 implements AuctionService {
         auction.setCurrentPrice(savedItem.getPrice());
         auction.setStartTime(savedItem.getRegDate());
 //        시간조정 endtime조정
-        auction.setEndTime(savedItem.getRegDate().plusMinutes(3));
+        auction.setEndTime(savedItem.getRegDate().plusMinutes(60));
         saveAuction(auction);
 
     }

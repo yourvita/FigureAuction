@@ -33,12 +33,13 @@
     </insert>
 
     <select id="findAll" resultType="Item">
-        select * from item
+        select * from item i join auction a where a.item_status='progress';
     </select>
 
     <select id="findItemAuctionPage" resultMap="ItemAuctionResultMap">
         SELECT i.*, a.*
         FROM item i JOIN auction a ON i.item_id = a.item_id
+        where a.item_status='progress'
         ORDER BY i.reg_date DESC
         LIMIT #{limit} OFFSET #{offset}
     </select>
@@ -47,6 +48,7 @@
         SELECT COUNT(*)
         FROM item i
                  JOIN auction a ON i.item_id = a.item_id
+        where a.item_status='progress'
     </select>
 
     <select id="findByNameItemAuctionPage" resultMap="ItemAuctionResultMap">

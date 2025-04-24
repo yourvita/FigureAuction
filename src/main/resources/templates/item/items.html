@@ -30,7 +30,7 @@
         <div th:replace="~{user/component :: searchPagination}"></div>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             <div class="col mb-5" th:each="itemInfo : ${itemAuctions}">
-                <div class="card h-100">
+                <div class="card h-100" th:if="${itemInfo.auction.itemStatus =='progress'}">
                     <!-- 상품이미지, 상품명, 가격, 수량, 설명,  -->
                     <!-- 진행이끝난상품은 자동삭제, 관리자 삭제 -->
                     <!-- Product image-->
@@ -51,7 +51,8 @@
                             <h5 th:text="${itemInfo.item.quantity} + '개'">수량</h5>
                             <h5 th:text="${itemInfo.item.descriptionDetail}">설명</h5>
                             <h5 th:text="${itemInfo.item.regDate}">등록시간</h5>
-<!--                            <h5 th:text="${itemInfo.auction.itemStatus}">진행상황</h5>-->
+                            <h5 th:if="${itemInfo.auction.itemStatus == 'progress'}">경매 진행중</h5>
+                            <h5 th:if="${itemInfo.auction.itemStatus == 'end'}">종료</h5>
                             <form th:if="${session.userEmail} == 'admin@admin.com'"
                                   th:action="@{/item/{itemId}/delete(itemId=${itemInfo.item.itemId})}" method="post">
                                 <button type="submit" class="btn btn-outline-dark mt-auto">
