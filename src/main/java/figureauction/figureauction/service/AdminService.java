@@ -18,17 +18,13 @@ import java.util.List;
 public class AdminService {
     private final AdminRepository repository;
 
-    public Page<Member> memberList(int page, int size) {
+    public void prepareAdmin(Model model, HttpSession session, int page, int size) {
+        SessionUtil.setLoginAttributes(model, session);
         int offset = (page - 1) * size;
         List<Member> memberList = repository.memberList(size, offset);
         int total = repository.countMemberList();
 
-        return new PageImpl<>(memberList, PageRequest.of(page-1,size), total);
-    }
-
-    public void prepareAdmin(Model model, HttpSession session, int page, int size) {
-        SessionUtil.setLoginAttributes(model, session);
-        Page<Member> content = memberList(page, size);
+        Page<Member> content = new PageImpl<>(memberList, PageRequest.of(page-1,size), total);
         model.addAttribute("content", content.getContent());
         model.addAttribute("totalPages", content.getTotalPages());
         model.addAttribute("currentPage", page);
