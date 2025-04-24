@@ -84,7 +84,6 @@
   </div>
   <!-- 페이징 -->
   <nav>
-    <h5 th:text="${totalPages}"></h5>
     <ul class="pagination">
       <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
         <a class="page-link" th:href="@{/item(page=${currentPage - 1}, size=4)}">이전</a>
