@@ -58,7 +58,6 @@ public class AdminController {
         service.searchMemberList(model,session, searchName, page, size);
         model.addAttribute("searchName", searchName);
         return "admin/admin";
-        /* TODO admin 유저검색 이상함*/
     }
 
     @PostMapping("/{userId}/deleteMember")
