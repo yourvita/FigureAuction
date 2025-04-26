@@ -3,6 +3,7 @@ package figureauction.figureauction.web.chat;
 import figureauction.figureauction.domain.chat.DmMessage;
 import figureauction.figureauction.domain.chat.DmRoom;
 import figureauction.figureauction.service.chat.DmService;
+import figureauction.figureauction.web.util.SessionUtil;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -30,6 +31,8 @@ public class DmController {
     public String dmList(@PathVariable String userEmail,
                          HttpSession session,
                          Model model) {
+        SessionUtil.setLoginAttributes(model, session);
+
         List<DmRoom> dmRooms = dmService.dmList(userEmail);
         model.addAttribute("dmRooms", dmRooms);
         return "user/dmList";
@@ -38,6 +41,8 @@ public class DmController {
 //    발신자가 DM 대화방 만들기
     @GetMapping("/dm/{targetEmail}")
     public String enterDmRoom(@PathVariable String targetEmail, HttpSession session, Model model) {
+        SessionUtil.setLoginAttributes(model, session);
+
         String myId = (String) session.getAttribute("userEmail");
         Long roomId = dmService.findOrCreateRoom(myId, targetEmail);
         List<DmMessage> dmMessages = dmService.messageList(myId, targetEmail);
