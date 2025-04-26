@@ -68,7 +68,6 @@ public class MemberController {
         SessionUtil.setLoginAttributes(model, session);
 
         model.addAttribute("member", service.findById(userId));
-        log.info("등급: {}", service.findById(userId).getUserGrade());
         return "members/member";
     }
 
@@ -77,7 +76,6 @@ public class MemberController {
         SessionUtil.setLoginAttributes(model, session);
 
         model.addAttribute("member", service.findById(userId));
-        log.info("등급: {}", service.findById(userId).getUserGrade());
 
         return "members/editMember";
     }

@@ -61,7 +61,6 @@ public class ItemServiceV1 implements ItemService {
 
     @Override
     public Page<ItemAuctionDto> getPagedItemAuctions(int page, int size) {
-//        if(page<2) page=2;
         int offset = (page - 1) * size;
         if(offset <0) offset = 0;
         List<ItemAuctionDto> content = itemRepository.findItemAuctionPage(size, offset);
@@ -72,7 +71,6 @@ public class ItemServiceV1 implements ItemService {
 
     @Override
     public Page<ItemAuctionDto> findByNameItemAuctionPage(String searchName, int page, int size) {
-//        if(page<2) page=2;
         int offset = (page - 1) * size;
         if(offset <0) offset = 0;
         List<ItemAuctionDto> content = itemRepository.findByNameItemAuctionPage(searchName, size, offset);

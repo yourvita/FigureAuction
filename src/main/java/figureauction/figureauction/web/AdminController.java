@@ -38,7 +38,6 @@ public class AdminController {
                             @RequestParam(defaultValue = "4") int size,
                             Model model, HttpSession session) {
         Boolean adminAccess = (Boolean) session.getAttribute("adminAccess");
-        log.info("adminAccess: {}", adminAccess);
         if(adminAccess == null || !adminAccess) {
             return "redirect:/";
         }

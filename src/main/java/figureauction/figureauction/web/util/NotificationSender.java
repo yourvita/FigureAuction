@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 public class NotificationSender {
     private final SimpMessagingTemplate messagingTemplate;
 
+    /* 상회입찰 발생 시 알림 */
     public void sendBidOvertakenNotification(Long userId, String message) {
         messagingTemplate.convertAndSend("/topic/notify/" + userId, message);
-        log.info("component message: {}",message);
     }
 }

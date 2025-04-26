@@ -48,18 +48,12 @@ public class AuctionServiceV1 implements AuctionService {
         String itemName = itemService.findOne(itemId).getItemName();
         String message = "경매 :" + itemName + "에 상회입찰이 발생했습니다";
         Bid currentMaxBid = repository.findBidMaxPrice((long) bid.getAuctionId());
-        log.warn(currentMaxBid.toString());
-        log.warn("11111currentMaxBid.getBidderId():{}", currentMaxBid.getBidderId());
-        log.warn("11111bid.getBidderId():{}", bid.getBidderId());
         if(currentMaxBid != null && currentMaxBid.getBidderId() != bid.getBidderId()) {
-            log.warn("currentMaxBid.getBidderId():{}", currentMaxBid.getBidderId());
-            log.warn("bid.getBidderId():{}", bid.getBidderId());
             Notification notification = new Notification();
             notification.setUserId(currentMaxBid.getBidderId());
             notification.setMessage(message);
             repository.saveNotification(notification);
             sender.sendBidOvertakenNotification(currentMaxBid.getBidderId(), message);
-            log.info("message: {}",message);
         }
 
         repository.saveBid(bid);

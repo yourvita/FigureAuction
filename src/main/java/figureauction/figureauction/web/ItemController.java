@@ -151,12 +151,4 @@ public class ItemController {
         model.addAttribute("currentPage", page);
         return "item/searchItems";
     }
-
-/*    @GetMapping("/search")
-    public String searchKeyword(Model model,@ModelAttribute String searchName) {
-        List<Item> bySearchName = itemService.findBySearchName(searchName);
-
-        model.addAttribute("itemAuctions", bySearchName);
-        return "item/searchItems";
-    }*/
 }

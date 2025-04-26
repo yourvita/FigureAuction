@@ -61,7 +61,6 @@ public class DmController {
     public String deleteDm(@PathVariable String targetEmail, HttpSession session, Model model) {
         SessionUtil.setLoginAttributes(model, session);
         String myId = (String) session.getAttribute("userEmail");
-        log.info("targetEmail:{}, myId: {}", targetEmail, myId);
         dmService.deleteDmRoom(myId, targetEmail);
         return "redirect:/user/dmList/" + myId;
     }
