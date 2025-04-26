@@ -53,6 +53,37 @@ CREATE TABLE notification (
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+-- chat
+CREATE TABLE chat_messages(
+	id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    sender VARCHAR(50),
+    recipient VARCHAR(50),
+    message TEXT,
+    timestamp DATETIME
+);
+
+-- 2. DM 채팅방 테이블
+CREATE TABLE dm_rooms (
+    room_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    recipient_email varchar(200) NOT NULL,
+    sender_email varchar(200) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (recipient_email, sender_email)
+);
+
+-- 3. DM 메시지 테이블
+CREATE TABLE dm_messages (
+    message_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    room_id BIGINT NOT NULL,
+    sender_email varchar(200) NOT NULL,
+    recipient_email varchar(200) NOT NULL,
+    content TEXT NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+select * from dm_messages;
+select * from dm_rooms;
+
 -- 경매시간이 종료되면 auction테이블의 item_status가 progress에서 end로 바뀌는 event
 SET GLOBAL event_scheduler = ON;
 CREATE EVENT update_auction_status_event
@@ -67,6 +98,7 @@ ALTER EVENT update_auction_status_event ON SCHEDULE EVERY 1 MINUTE;
 
 select * from members;
 select * from item;
+select * from chat_messages;
 insert into item(item_id, seller_id, item_name, price, quantity, description_detail) value(null, "jinseo", "itemA", 10000, 1, "잘관리되었습니다");
 insert into item value(null, "jinseo", "itemB", 20000, 2, "상태 좋습니다");
 insert into members(user_id, user_email, user_pw, user_name, user_phone, user_addr, user_grade, user_status) value(null, "jinseo@gmail.com", 1234, "jinseo", "010-4152-5729", "쌍촌동", "A", true); 
@@ -109,3 +141,16 @@ select * from bid where auction_id=4;
 select b.bid_id, a.auction_id, m.user_id, m.user_name, b.bid_price from members m, auction a, bid b, item i where a.auction_id=4;
 SELECT * FROM bid WHERE auction_id = 4 ORDER BY bid_price DESC LIMIT 1;
 update auction set start_time=now(), item_status='progress' where item_id=9;
+
+SELECT *
+FROM chat_messages
+WHERE (sender='admin@admin.com' AND recipient='userA@user') OR (sender='userA@user' AND recipient='admin@admin.com')
+ORDER BY timestamp ASC;
+SELECT *
+FROM chat_messages;
+select * from item i join auction a where a.item_status='progress';
+SELECT i.*, a.*
+FROM item i JOIN auction a ON i.item_id = a.item_id
+where a.item_status='progress'
+ORDER BY i.reg_date DESC;
+

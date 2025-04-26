@@ -13,5 +13,5 @@ public interface DmRoomMapper {
     List<DmMessage> messageList(String senderEmail, String recipientEmail);
     void createRoom(DmRoom room);
     void saveMessage(DmMessage message);
-
+    void deleteDmRoom(String senderEmail, String recipientEmail);
 }

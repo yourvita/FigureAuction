@@ -6,6 +6,7 @@ import figureauction.figureauction.service.chat.DmService;
 import figureauction.figureauction.web.util.SessionUtil;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -55,7 +57,14 @@ public class DmController {
         return "user/dmroom";
     }
 
-//    @PostMapping("/deleteDm/{senderEmail}")
+    @GetMapping("/deleteDm/{targetEmail}")
+    public String deleteDm(@PathVariable String targetEmail, HttpSession session, Model model) {
+        SessionUtil.setLoginAttributes(model, session);
+        String myId = (String) session.getAttribute("userEmail");
+        log.info("targetEmail:{}, myId: {}", targetEmail, myId);
+        dmService.deleteDmRoom(myId, targetEmail);
+        return "redirect:/user/dmList/" + myId;
+    }
 
     @MessageMapping("/chat.send")
     public void sendDm(DmMessage message) {

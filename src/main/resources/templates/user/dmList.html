@@ -30,31 +30,11 @@
                     JOIN
                 </button>
             </td>
-            <td><button class="btn btn-primary" style="width:80%;" th:onclick="deleteDm([[${dmroom.senderEmail}]])">DELETE</button></td>
+            <td><button class="btn btn-primary" style="width:80%;" th:onclick="|location.href='@{/user/deleteDm/{targetEmail}(targetEmail=${dmroom.senderEmail == session.userEmail ? dmroom.recipientEmail : dmroom.senderEmail})}'|">DELETE</button></td>
         </tr>
         </tbody>
     </table>
 </div>
-<script>
-    function deleteDm(userId) {
-        if(!confirm('정말 삭제하시겠습니까?')) return;
-        fetch(`/user/deleteDm/${senderEmail}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'application/json'
-            }
-        }).then(response => {
-            if(response.redirected) {
-                window.location.href = response.url;
-            } else if(response.ok) {
-                alert("삭제 완료");
-                window.location.reload();
-            } else {
-                alert("삭제 실패");
-            }
-        })
-    }
-</script>
 <div th:replace="~{user/notifications :: notify}"></div>
 </body>
 </html>

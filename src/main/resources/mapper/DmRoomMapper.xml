@@ -32,4 +32,9 @@
         INSERT INTO dm_messages(room_id, sender_email, recipient_email, content, created_at)
         VALUES (#{roomId}, #{senderEmail}, #{recipientEmail}, #{content}, #{createdAt})
     </insert>
+
+    <!-- 채팅방 삭제 -->
+    <delete id="deleteDmRoom">
+        DELETE FROM dm_rooms WHERE (sender_email=#{senderEmail} AND recipient_email=#{recipientEmail}) OR (sender_email=#{recipientEmail} AND recipient_email=#{senderEmail})
+    </delete>
 </mapper>

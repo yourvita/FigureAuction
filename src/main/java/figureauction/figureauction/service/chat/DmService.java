@@ -36,4 +36,8 @@ public class DmService {
     public void saveMessage(DmMessage message) {
         roomMapper.saveMessage(message);
     }
+
+    public void deleteDmRoom(String senderEmail, String recipientEmail) {
+        roomMapper.deleteDmRoom(senderEmail, recipientEmail);
+    }
 }
