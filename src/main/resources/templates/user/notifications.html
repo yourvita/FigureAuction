@@ -25,6 +25,12 @@
             });
         }, function(error) {
             console.log("stomp 연결실패")
+        })
+
+        window.addEventListener("beforeunload", () => {
+            if (stompClient && stompClient.connected) {
+                stompClient.disconnect(() => console.log("WebSocket disconnected."));
+            }
         });
     </script>
 </div>

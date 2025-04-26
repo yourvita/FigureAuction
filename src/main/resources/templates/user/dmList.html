@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/items.css}"
+          href="/css/items.css" rel="stylesheet">
+    <title>DM LIST</title>
+</head>
+<body>
+<div th:replace="~{user/component :: navbar}"></div>
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>SENDER</th>
+            <th>DATE</th>
+            <th>JOIN</th>
+            <th>DELETE</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="dmroom : ${dmRooms}">
+            <td th:text="${dmroom.senderEmail==session.userEmail ? dmroom.recipientEmail : dmroom.senderEmail}"></td>
+            <td th:text="${dmroom.createdAt}"></td>
+            <td>
+                <button class="btn btn-primary" style="width:80%;"
+                        th:onclick="|location.href='@{/user/dm/{targetEmail}(targetEmail=${dmroom.senderEmail == session.userEmail ? dmroom.recipientEmail : dmroom.senderEmail})}'|">
+                    JOIN
+                </button>
+            </td>
+            <td><button class="btn btn-primary" style="width:80%;" th:onclick="deleteDm([[${dmroom.senderEmail}]])">DELETE</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    function deleteDm(userId) {
+        if(!confirm('정말 삭제하시겠습니까?')) return;
+        fetch(`/user/deleteDm/${senderEmail}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        }).then(response => {
+            if(response.redirected) {
+                window.location.href = response.url;
+            } else if(response.ok) {
+                alert("삭제 완료");
+                window.location.reload();
+            } else {
+                alert("삭제 실패");
+            }
+        })
+    }
+</script>
+<div th:replace="~{user/notifications :: notify}"></div>
+</body>
+</html>

@@ -111,7 +111,7 @@
                                                 <button class="w-25 btn btn-secondary btn-lg item-detail-btn-group-custom"
                                                         type="button"
                                                         onclick="location.href='loginForm.html'"
-                                                        th:onclick="|location.href='@{/chat/{userEmail}(userEmail=${item.userEmail})}'|"
+                                                        th:onclick="|location.href='@{/user/dm/{targetEmail}(targetEmail=${item.userEmail})}'|"
                                                         th:if="${isLoggedIn}">
                                                     채팅
                                                 </button>
@@ -127,13 +127,6 @@
                                     </form>
                                 </div>
                             </div>
-                            <button class="w-25 btn btn-secondary btn-lg item-detail-btn-group-custom"
-                                    type="button"
-                                    onclick="location.href='loginForm.html'"
-                                    th:onclick="|location.href='@{/chat/{userEmail}(userEmail=${item.userEmail})}'|"
-                                    th:if="${isLoggedIn}">
-                                채팅
-                            </button>
                         </div>
                     </div>
                 </div>

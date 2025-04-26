@@ -6,7 +6,7 @@
         href="../css/bootstrap.min.css" rel="stylesheet">
   <link th:href="@{/css/items.css}"
         href="/css/items.css" rel="stylesheet">
-  <title>header section</title>
+  <title>component</title>
 </head>
 <body>
 <!-- Navigation-->
@@ -48,6 +48,13 @@
               type="button"
               th:if="${isLoggedIn}">
         상품등록
+      </button>
+      <button class="btn btn-outline-secondary btn-custom"
+              type="button"
+              onclick="location.href='loginForm.html'"
+              th:onclick="|location.href='@{/user/dmList/{userEmail}(userEmail=${session.userEmail})}'|"
+              th:if="${isLoggedIn}">
+        채팅목록
       </button>
       <button class="btn btn-outline-secondary btn-custom"
               onclick="location.href='admin.html'"

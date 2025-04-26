@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="figureauction.figureauction.mapper.DmRoomMapper">
+    <!-- 방 찾기 발신자 입장 (user1, user2) -->
+    <select id="findRoom" resultType="figureauction.figureauction.domain.chat.DmRoom">
+        SELECT * FROM dm_rooms
+        WHERE (sender_email = #{senderEmail} AND recipient_email = #{recipientEmail})
+           OR (sender_email = #{recipientEmail} AND recipient_email = #{senderEmail})
+    </select>
+
+
+    <!-- 채팅방 리스트 찾기 수신자 이메일로 -->
+    <select id="dmList" resultType="dmRoom">
+        SELECT * FROM dm_rooms WHERE recipient_email=#{recipientEmail} OR sender_email=#{recipientEmail}
+    </select>
+
+    <!-- 메시지 불러오기 -->
+    <select id="messageList" resultType="dmMessage">
+        SELECT * FROM dm_messages WHERE (sender_email=#{senderEmail} AND recipient_email=#{recipientEmail}) OR (sender_email=#{recipientEmail} AND recipient_email=#{senderEmail})
+        ORDER BY created_at ASC
+    </select>
+
+    <!-- 새 방 생성 -->
+    <insert id="createRoom" useGeneratedKeys="true" keyProperty="roomId" parameterType="DmRoom">
+        INSERT INTO dm_rooms (sender_email, recipient_email)
+        VALUES (#{senderEmail}, #{recipientEmail})
+    </insert>
+
+    <!--  메시지 저장  -->
+    <insert id="saveMessage" parameterType="DmMessage">
+        INSERT INTO dm_messages(room_id, sender_email, recipient_email, content, created_at)
+        VALUES (#{roomId}, #{senderEmail}, #{recipientEmail}, #{content}, #{createdAt})
+    </insert>
+</mapper>
