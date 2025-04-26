@@ -46,13 +46,14 @@
                                    style="text-decoration: none;">상품명</a>
                             </h1>
                             <!-- 가격-->
-                            <h5><a th:href="@{/item/{sellerId}/sellerItems(sellerId=${itemInfo.item.sellerId})}" th:text="${itemInfo.item.sellerId}" style="text-decoration: none;">판매자</a></h5>
-                            <h5 th:text="${itemInfo.item.price} + '원'">가격격</h5>
-                            <h5 th:text="${itemInfo.item.quantity} + '개'">수량</h5>
-                            <h5 th:text="${itemInfo.item.descriptionDetail}">설명</h5>
-                            <h5 th:text="${itemInfo.item.regDate}">등록시간</h5>
-                            <h5 th:if="${itemInfo.auction.itemStatus == 'progress'}">경매 진행중</h5>
-                            <h5 th:if="${itemInfo.auction.itemStatus == 'end'}">종료</h5>
+                            <h6><a th:href="@{/item/{sellerId}/sellerItems(sellerId=${itemInfo.item.sellerId})}" th:text="${itemInfo.item.sellerId}" style="text-decoration: none;">판매자</a></h6>
+                            <h6 th:text="${itemInfo.item.price} + '원'">가격격</h6>
+                            <h6 th:text="${itemInfo.item.quantity} + '개'">수량</h6>
+                            <h6 th:text="${itemInfo.item.descriptionDetail}">설명</h6>
+                            <h6 th:text="${#temporals.format(itemInfo.auction.endTime, 'yyyy년 MM월 dd일')}">종료시간</h6>
+                            <h6 th:text="${#temporals.format(itemInfo.auction.endTime, 'HH시mm분 까지')}">종료시간</h6>
+                            <h6 th:if="${itemInfo.auction.itemStatus == 'progress'}">경매 진행중</h6>
+                            <h6 th:if="${itemInfo.auction.itemStatus == 'end'}">종료</h6>
                             <form th:if="${session.userEmail} == 'admin@admin.com'"
                                   th:action="@{/item/{itemId}/delete(itemId=${itemInfo.item.itemId})}" method="post">
                                 <button type="submit" class="btn btn-outline-dark mt-auto">

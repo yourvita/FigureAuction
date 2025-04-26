@@ -23,7 +23,7 @@
         <tbody>
         <tr th:each="dmroom : ${dmRooms}">
             <td th:text="${dmroom.senderEmail==session.userEmail ? dmroom.recipientEmail : dmroom.senderEmail}"></td>
-            <td th:text="${dmroom.createdAt}"></td>
+            <td th:text="${#temporals.format(dmroom.createdAt, 'yyyy-mm-dd HH:mm')}"></td>
             <td>
                 <button class="btn btn-primary" style="width:80%;"
                         th:onclick="|location.href='@{/user/dm/{targetEmail}(targetEmail=${dmroom.senderEmail == session.userEmail ? dmroom.recipientEmail : dmroom.senderEmail})}'|">
