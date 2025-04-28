@@ -74,4 +74,4 @@ window.addEventListener('DOMContentLoaded', function()
     - 관리자는 부적절한 상품을 삭제할 수 있습니다.
     - ![관리자상품삭제](https://github.com/user-attachments/assets/2b2a3fb5-18e3-4bcd-8b43-36459706080a)
     - 관리자는 회원을 검색 및 등급조정할 수 있습니다.
-    - ![관리자 회원관리](https://github.com/user-attachments/assets/af473774-567f-4200-9d45-03e8400c615e)
+    - ![관리자 회원관리](https://github.com/user-attachments/assets/b502543c-df69-4b47-b149-ba8e89e798a9)
