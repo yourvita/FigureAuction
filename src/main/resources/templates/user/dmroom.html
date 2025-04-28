@@ -44,7 +44,6 @@
             li.textContent = msg.senderEmail + ": " + msg.content;
             li.classList.add("list-group-item");
             li.classList.add(msg.senderEmail === myId ?  "list-group-item-info" : "list-group-item-light");
-            // li.className = "list-group-item" + (msg.senderEmail === myId ? "list-group-item-info" : "list-group-item-light");
             document.getElementById("chatBox").appendChild(li);
             document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
         });
